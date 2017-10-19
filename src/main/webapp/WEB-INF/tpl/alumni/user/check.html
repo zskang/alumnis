@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+#loading
+<!-- 风格切换 -->
+#stylepage
+<div class="app ${layout}">
+    <!-- 头部菜单 -->
+    #header
+    <section class="layout">
+        <!-- 菜单 -->
+        #sidebar
+        <!-- 内容主体 -->
+        <section class="main-content">
+            <!-- 主体操作栏 -->
+            <header class="header navbar bb">
+                <!-- 左按钮区 -->
+                <div class="btn-group tool-button">
+                    <a class="btn btn-primary navbar-btn" href="$!basePath/alumni/user"><i class="ti-angle-left"></i> 返回</a>
+                    <a href="javascript:replaceUser()" class="btn btn-primary navbar-btn"><i class="ti-exchange-vertical"></i>替换</a>
+                </div>
+                <div class="pull-right offscreen-right">
+                </div>
+            </header>
+            <div class="content-wrap">
+                <div class="wrapper">
+                    <form id="alumniUserForm" action="$!basePath/alumni/user" method="post" paramsLink="#myFindForm">
+                        <div class="row">
+                            <div class="col-lg-12 table-responsive">
+                                <table id="alumniUserTable" class="table no-m">
+                                    <thead>
+                                    <tr>
+                                        <th hidden>ID</th>
+                                        <th class="col-md-1">姓名</th>
+                                        <th class="col-md-1">姓别</th>
+                                        <th class="col-md-1">出生日期</th>
+                                        <th class="col-md-1">证件号</th>
+                                        <th class="col-md-1">手机号</th>
+                                        <th class="col-md-1">email</th>
+                                        <th class="col-md-1">入学年份</th>
+                                        <th class="col-md-1">专业</th>
+                                        <th class="col-md-1">QQ</th>
+                                        <th class="col-md-1">微信</th>
+                                        <th class="col-md-1">行业</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    #foreach($obj in $list)
+                                    <tr>
+                                        <td hidden>$!obj.ID</td>
+                                        <td>$!obj.NAME</td>
+                                        <td>$!obj.XB</td>
+                                        <td>$!obj.CSRQ</td>
+                                        <td>$!obj.IDCARD</td>
+                                        <td>$!obj.MOBILE</td>
+                                        <td>$!obj.EMAIL</td>
+                                        <td>$!obj.RXNF</td>
+                                        <td>$!obj.ZYFX</td>
+                                        <td>$!obj.QQ</td>
+                                        <td>$!obj.WECHAT</td>
+                                        <td>$!obj.INDUSTRY</td>
+                                    </tr>
+                                    #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                #pager_ajax
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a class="exit-offscreen"></a>
+        </section>
+    </section>
+</div>
+
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/form/form.js"></script>
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script type="text/javascript">
+
+    function initSelectEvent(){
+        $("#alumniUserTable tbody").find("tr").click(function(){
+            $("#alumniUserTable tbody tr").css("background-color","");
+            $("#alumniUserTable tbody tr").removeAttr("selected");
+            $(this).css({"background-color": "#BFFFE3"});
+            $(this).attr("selected","selected");
+        });
+    }
+
+    $(function(){
+        initSelectEvent();
+    });
+
+    function getSelected(){
+        var selectedTr =  $("#alumniUserTable tbody tr[selected='selected']");
+        if(selectedTr.length>0){
+            return $(selectedTr).find("td")[0].innerText;
+        }
+    }
+
+    function replaceUser(){
+        var selected = getSelected();
+        if(!selected){
+            ns.alert("请选择一行记录作为基础数据！");
+            return;
+        }
+        var trArr =  $("#alumniUserTable tbody tr");
+        if(trArr.length == 1){
+            ns.alert("当前没有重复数据！");
+            return;
+        }
+        ns.tip.confirm("此操作会删除其他的数据，确定吗？", function () {
+            var delIdArr = [];
+            for(var i = 0;i<trArr.length;i++) {
+                var delId = $(trArr[i]).find("td")[0].innerText;
+                if (delId == selected) {
+                    continue;
+                }
+                delIdArr.push(delId);
+            }
+            $.post("$!basePath/alumni/user/replace", {id:selected, delIdArr:delIdArr}, function (data) {
+                if (data.success) {
+                    Toast.success("替换成功！");
+                    ns.back("$!basePath/alumni/user",1000);
+                }else {
+                    Toast.error(data.error);
+                }
+            });
+        });
+    }
+</script>
+#loading_close
+</body>
+</html>

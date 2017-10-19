@@ -1,0 +1,33 @@
+<table  class="table no-m">
+     <thead>
+         <tr>
+         	<th class="col-md-2">
+                	菜单名称
+         	</th>
+             <th class="col-md-2 pd-l-lg">
+                 <span class="pd-l-sm"></span>URL</th>
+             <th class="col-md-8">按钮</th>
+         </tr>
+     </thead>
+     <tbody>
+     	#foreach($!res in $!resList)
+		<tr>
+			<td>
+		 		$!res.name
+			</td>
+		    <td>
+		        <span class="pd-l-sm"></span>$!res.url</td>
+		    <td>
+		    	<select name="$!res.id" data-placeholder="选择按钮权限" style="width:100%" multiple="" class="chosen">
+                    #foreach($!btn in $!btnList)
+                    <option selected="selected" value="$!btn.id">$!btn.name
+                    #end
+                </select>
+		    </td>
+		</tr>
+		#end
+     </tbody>
+ </table>
+ <script type="text/javascript">
+	$(".chosen").chosen();
+ </script>

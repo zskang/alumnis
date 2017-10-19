@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>字符串编解码工具</title>
+<meta charset=utf-8>
+<link rel="shortcut icon" href="$!basePath/framework/img/logo.png">
+<!--[if (lt IE 8.0)]><link rel=stylesheet href="$!basePath/app/tools/endecode/base.css?v=00258e4e"><![endif]-->
+<!--[if (!IE)|(gte IE 8.0)]><!-->
+<link rel=stylesheet href="$!basePath/app/tools/endecode/base_datauri.css?v=10e21e48">
+<!--<![endif]-->
+<link rel=stylesheet href="$!basePath/app/tools/endecode/endecode.css?v=df94e56c">
+<link rel=stylesheet href="$!basePath/app/tools/tools.css">
+<script type="text/javascript">
+	(function() {
+		var a = document.getElementsByTagName("html")[0];
+		window.Session = {
+			appDomain : a.getAttribute("data-app-domain") || "",
+			staticDomain : a.getAttribute("data-static-domain") || ""
+		}
+	})();
+	window.registNS = function(fullNS, isIgnorSelf) {
+		var reg = /^[_$a-z]+[_$a-z0-9]*/i;
+		var nsArray = fullNS.split(".");
+		var sEval = "";
+		var sNS = "";
+		var n = isIgnorSelf ? nsArray.length - 1 : nsArray.length;
+		for (var i = 0; i < n; i++) {
+			if (!reg.test(nsArray[i])) {
+				throw new Error("Invalid namespace:" + nsArray[i] + "");
+				return
+			}
+			if (i != 0) {
+				sNS += "."
+			}
+			sNS += nsArray[i];
+			sEval += "if(typeof(" + sNS + ")=='undefined') " + sNS
+					+ "=new Object();else " + sNS + ";"
+		}
+		if (sEval != "") {
+			return eval(sEval)
+		}
+		return {}
+	};
+	window.addEventMap = function(c, d, b, a) {
+		$.each(d, function(e, f) {
+			$(c).bind(f, function(h) {
+				var g = h.target || h.srcElement;
+				if (!g) {
+					return false
+				}
+				for ( var j in b[f]) {
+					var i = b[f][j];
+					if ((g.className && $(g).hasClass(j))) {
+						i.call(g, h);
+						break
+					} else {
+						if (ancestor = $(g).parents("." + j)[0]) {
+							i.call(ancestor, h);
+							break
+						}
+					}
+				}
+				if (typeof a === "function") {
+					a.call(h)
+				}
+			})
+		})
+	};
+	var fixedTheElementOnScroll = function(c, a) {
+		if (!c) {
+			return false
+		}
+		a = parseInt(a, 10) || 0;
+		var b = function(g) {
+			var f = $(c).offset();
+			if ($(c).attr("data-fixed") != "1") {
+				$(c).attr({
+					"data-original-top" : f.top
+				})
+			}
+			var d = $(window).scrollTop() + a;
+			if ($(c).attr("data-original-top") <= d) {
+				if ($.browser.ie == 6) {
+					$(c).attr({
+						"data-fixed" : 1
+					});
+					$(c).css(
+							{
+								position : "absolute",
+								top : d - $(c).attr("data-original-top")
+										+ c.offsetHeight,
+								left : 0
+							})
+				} else {
+					if ($(c).attr("data-fixed") != "1") {
+						$(c).attr({
+							"data-fixed" : 1
+						});
+						$(c).css({
+							position : "fixed",
+							top : a,
+							left : f.left
+						})
+					}
+				}
+			} else {
+				$(c).attr("data-fixed", 0);
+				$(c).css({
+					position : "static"
+				})
+			}
+		};
+		b();
+		$(window).scroll(b)
+	};
+	String.prototype.trim = function() {
+		return this.replace(/^\s*|\s*$/g, "")
+	};
+	String.format = function(c, a) {
+		c = String(c);
+		var b = Array.prototype.slice.call(arguments, 1), d = Object.prototype.toString;
+		if (b.length) {
+			b = b.length == 1 ? (a !== null
+					&& (/\[object Array\]|\[object Object\]/.test(d.call(a))) ? a
+					: b)
+					: b;
+			return c.replace(/#\{(.+?)\}/g, function(e, g) {
+				var f = b[g];
+				if ("[object Function]" == d.call(f)) {
+					f = f(g)
+				}
+				return ("undefined" == typeof f ? "" : f)
+			})
+		}
+		return c
+	};
+	(function() {
+		var b = ("abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video")
+				.split(","), a = b.length;
+		while (a--) {
+			document.createElement(b[a])
+		}
+	})();
+</script>
+</head>
+<body>
+	<section class=mod-page-body>
+		<div class="mod-page-main wordwrap clearfix">
+			<div class=mod-pagecontent>
+				<div class="mod-endecode -e-x-container">
+					<fieldset>
+						<legend>对字符串进行各种编解码操作</legend>
+						<div class=x-input>
+							<textarea class="-e-zxl-ta-src" id="srcText" placeholder="在这里粘贴您需要进行编码转换的字符串"></textarea>
+						</div>
+						<div class=-e-x-btn>
+							<span class=-e-x-radio><input type=radio name=codeType id=uniEncode checked=checked><label for=uniEncode>Unicode编码</label><input type=radio name=codeType id=uniDecode><label
+								for=uniDecode>Unicode解码</label><input type=radio name=codeType id=utf8Encode><label for=utf8Encode>UTF-8编码</label><input type=radio name=codeType id=utf8Decode><label
+								for=utf8Decode>UTF-8解码</label><input type=radio name=codeType id=base64Encode><label for=base64Encode>base64编码</label><input type=radio name=codeType id=base64Decode><label
+								for=base64Decode>base64解码</label><input type=radio name=codeType id=md5Encode><label for=md5Encode>md5编码</label></span><input id=btnCodeClear class="-e-btn -e-clear-btn" type=button
+								value="清空"><input id=btnCodeChange class=-e-btn type=button value="转换">
+						</div>
+					</fieldset>
+					<div id=rst class="x-input -e-x-rst">
+						<textarea class="zxl-ta-rst" id="rstCode" cols="" rows=""></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="$!basePath/app/tools/endecode/base.js?v=7a0db0e0"></script>
+	<script src="$!basePath/app/tools/endecode/install.js?v=0f75f48d"></script>
+	<script src="$!basePath/app/tools/endecode/forkit.js?v=34442652"></script>
+	<script src="$!basePath/app/tools/endecode/endecode.js?v=3c28d9a2"></script>
+	#parse("/open/tools/_footer.html")
+</body>
+</html>

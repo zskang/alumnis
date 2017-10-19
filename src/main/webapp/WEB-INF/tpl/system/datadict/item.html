@@ -1,0 +1,7 @@
+#foreach($!obj in $!list)
+<tr id="$!obj.id">
+    <td><span class="pd-l-sm"></span><input name="key" type="text" class="form-control" value="$!obj.k"/></td>
+    <td><input name="value" type="text" class="form-control" value="$!obj.v"/></td>
+    <td><a href="javascript:removeItem('$!obj.id');"><i class="ti-close"></i></a></td>
+</tr>
+#end

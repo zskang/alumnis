@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>magicsuggest.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	#required_css
+	<link href="$!basePath/framework/plugins/magicsuggest/magicsuggest.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    <div id="magicsuggest"></div>
+    
+    #required_js
+	<script src="$!basePath/framework/plugins/magicsuggest/magicsuggest-min.js"></script>
+	<script>
+		$(function(){
+			$('#magicsuggest').magicSuggest({
+			  allowFreeEntries: true,
+			  data: ['Paris', 'New York', 'Gotham']
+			});
+		});
+	</script>
+  </body>
+</html>

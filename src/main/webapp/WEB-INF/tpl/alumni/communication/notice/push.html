@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+#loading
+<!-- 风格切换 -->
+#stylepage
+<div class="app ${layout}">
+    <!-- 头部菜单 -->
+    #header
+    <section class="layout">
+        <!-- 菜单 -->
+        #sidebar
+        <!-- 内容主体 -->
+        <section class="main-content">
+            <!-- 主体操作栏 -->
+            <header class="header navbar bb">
+                <style>
+                    .headerDiv{
+                        text-align:center;
+                    }
+                    .headerDiv label{
+                        font-family:宋体;font-size:20px;margin-top:10px;
+                    }
+                </style>
+                <div class="row" >
+                    <div class="col-lg-12" >
+                        <div class="col-lg-3 headerDiv">
+                            <a class="pull-left btn btn-primary navbar-btn" href="$!basePath/alumni/communication/notice"><i class="ti-angle-left"></i> 返回</a>
+                            <label>入学年份</label>
+                        </div>
+                        <div class="col-lg-3 headerDiv">
+                            <label>专业</label>
+                        </div>
+                        <div class="col-lg-3 headerDiv">
+                            <label>地区</label>
+                        </div>
+                        <div class="col-lg-3 headerDiv">
+                            <label>行业</label>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="content-wrap">
+                <div class="wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3">
+                                <select name="rxnf" class="form-control" onchange="selectRxnf(this[selectedIndex].value)">
+                                    #foreach($!obj in $!yearRange)
+                                    <option value="$!obj.value">$!obj.name</option>
+                                    #end
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <div id="jsTreeZy"></div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div id="jsTreeRegion"></div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div id="jsTreeHy"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                    <form class="form-horizontal">
+                        <div class="form-group ">
+                            <label class="col-sm-1 col-sm-offset-3 control-label" style="margin-top:8px;">已选择:</label>
+                            <div class="col-sm-4" style="margin-top:8px;">
+                                <input type="text" class="form-control" id="selectTags" placeholder="双击选择" readonly>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="javascript:openDialog();" class="btn btn-primary navbar-btn"><i class="ti-plus"></i>推送消息</a>
+                            </div>
+                        </div>
+                    </form>
+            </footer>
+            <a class="exit-offscreen"></a>
+        </section>
+    </section>
+</div>
+
+<div id="dialogPush" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">推送消息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="alumniPushForm" role="form" class="form-horizontal"
+                      data-parsley-validate action="$!basePath/alumni/communication/push/do" method="post">
+                    <input hidden name="tags">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">标题:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="title" data-parsley-required="true" data-parsley-byterangelength="50">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容:</label>
+                                <div class="col-sm-10">
+                                    <textarea name="content" data-parsley-required="true" style="resize: none;width:100%;" rows="6" data-parsley-byterangelength="500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button type="button" id="pushBtn" data-loading-text="正在发送..." class="btn btn-primary"  onclick="push()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/form/form.js"></script>
+<script src="$!basePath/framework/js/form/validator.js"></script>
+<script src="$!basePath/framework/plugins/parsley/parsley.extend.js"></script>
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script src="$!basePath/framework/js/view/tree.js"></script>
+<script type="text/javascript">
+
+    function initTreeView(){
+        //专业树
+        $("#jsTreeZy").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/major"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectZy();
+        });
+        //行业树
+        $("#jsTreeHy").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/industry"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectHy();
+        });
+        //辖区树
+        $("#jsTreeRegion").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/region"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectRegion();
+        });
+    }
+
+    var tagArr = new Array(4);
+    var selectArr = new Array(4);
+    function selectRxnf(value){
+        if(value){
+            tagArr[0] = "rxnf_"+value;
+            selectArr[0] = value;
+            setValue();
+        }
+    }
+
+    function setValue(){
+        var newArr = [];
+        for(var i = 0;i<selectArr.length;i++){
+            if(selectArr[i]){
+                newArr.push(selectArr[i]);
+            }
+        }
+        $("#selectTags").val(newArr);
+    }
+
+    //选择专业
+    function selectZy(){
+        var tree = $.jstree.reference("#jsTreeZy");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){//选择的是学院
+                ns.tip.alert("请选择具体的专业！");
+            }else{//选择的是专业
+                tagArr[1] = "major_"+node[0].id;
+                selectArr[1] = node[0].text;
+                setValue();
+            }
+        }
+    }
+
+    //选择行业
+    function selectHy(){
+        var tree = $.jstree.reference("#jsTreeHy");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){
+                ns.tip.alert("请选择具体的行业！");
+            }else{
+                tagArr[2] = "industry_"+node[0].id;
+                selectArr[2] = node[0].text;
+                setValue();
+            }
+        }
+    }
+
+    //选择辖区
+    function selectRegion(){
+        var tree = $.jstree.reference("#jsTreeRegion");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){
+                ns.tip.alert("请选择具体的辖区！");
+            }else{
+                tagArr[3] = "region_"+node[0].id;
+                selectArr[3] = node[0].original.qc;
+                setValue();
+            }
+        }
+    }
+
+    $(function(){
+        $("#alumniPushForm").ajaxForm({
+            beforeSubmit:function(arr, $form, options){
+                var newArr = [];
+                for(var i = 0;i<tagArr.length;i++){
+                    if(tagArr[i]){
+                        newArr.push(tagArr[i]);
+                    }
+                }
+                arr[0].value = newArr;
+                $("#pushBtn").button("loading");
+            },
+            success : function(data, statusText, xhr, $form) {
+                if(data.success == true){
+                    ns.tip.toast.success("发送成功！");
+                }else{
+                    ns.tip.toast.error(data.error);
+                }
+                $("#pushBtn").button("reset");
+                $("#dialogPush").modal("hide");
+            }
+        });
+        initTreeView();
+    });
+
+    function openDialog(){
+        var selectTags = $("#selectTags").val();
+        if(selectTags){
+            $("#dialogPush").modal("show");
+        }else{
+            ns.tip.alert("请选择发送对象");
+        }
+    }
+
+    function push() {
+        $("#alumniPushForm").submit();
+    }
+</script>
+#loading_close
+</body>
+</html>

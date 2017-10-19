@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    
+    <title>#title</title>
+    #required_css
+</head>
+
+<body>#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}"> 
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 主体操作栏 -->
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<header class="header navbar">
+           			<!-- 左按钮区 -->
+                   <div class="btn-group tool-button">
+                   		<a class="btn btn-primary navbar-btn" href="$!basePath/system/plugin"><i class="ti-reload"></i> 刷新</a>
+                   		<button class="btn btn-primary navbar-btn hide" onclick="doUploadPlugin()"><i class="fa fa-cloud-upload"></i> 上传新插件</button>
+                   </div>
+             	</header>
+                <div class="content-wrap">
+                   	<div class="wrapper">
+                        <div class="row">
+                        	<div class="col-lg-12">
+                        		<table id="userTable" class="table no-m">
+	                                <thead>
+	                                    <tr>
+	                                        <th class="col-md-5 pd-l-lg">
+	                                            <span class="pd-l-sm"></span>插件名称</th>
+	                                        <th class="col-md-2">启动时加载</th>
+	                                        <th class="col-md-2">状态</th>
+	                                        <th class="col-md-3">操作</th>
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                	#if($!list.size() == 0)
+	                                		<tr>
+	                                			<td colspan="4">
+		                                			<div class="alert alert-info">
+		                                				系统目录中未发现插件！
+				                                    </div>
+	                                			</td>
+	                                		</tr>
+	                                	#else
+		                                	#foreach($!obj in $!list)
+		                                    <tr>
+		                                        <td><span class="fa fa-puzzle-piece pd-l-sm mr10"></span>$!obj.value()</td>
+		                                        <td>#if($!obj.autoloading())是#else否#end</td>
+	                                        	#if($!PluginPool.containsKey($!obj.value()))
+	                                        		<td><span class="label label-default">已安装</span></td>
+	                                        		<td>
+		                                        	<button class="btn btn-danger btn-xs" data-loading-text="正在卸载..." onclick="unregister(this,'$!obj.value()')"><i class="ti-unlink"></i> 卸 载 </button>
+		                                        	</td>
+	                                        	#else
+	                                        		<td><span class="label label-default">未安装</span></td>
+	                                        		<td>
+		                                        	<button class="btn btn-primary btn-xs" data-loading-text="正在安装..." onclick="register(this,'$!mapPlugin.get($!obj.value())')"><i class="ti-plug"></i> 安 装 </button>
+		                                        	</td>
+	                                        	#end
+		                                    </tr>
+		                                    #end
+	                                    #end
+	                                </tbody>
+	                            </table>
+                            </div>
+                        </div>
+                	</div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+    #required_js
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+    <script src="$!basePath/framework/js/form/uploader.js"></script>
+    <script type="text/javascript">
+		function unregister(btn,name){
+			$(btn).button("loading");
+			jQuery.post("$!basePath/system/plugin/unregister",{name:name}, function(data){
+				if(data.success == true){
+					window.location.href="$!basePath/system/plugin";
+				}else{
+					Toast.error(data.error);
+					$(btn).button("reset");
+				}
+			});
+		}
+		function register(btn,cls){
+			$(btn).button("loading");
+			jQuery.post("$!basePath/system/plugin/register",{cls:cls}, function(data){
+				if(data.success == true){
+					window.location.href="$!basePath/system/plugin";
+				}else{
+					Toast.error(data.error);
+					$(btn).button("reset");
+				}
+			});
+		}
+		
+		function doUploadPlugin(){
+			ns.form.uploader.open({
+				success:function(path,name){
+					alert(path);
+				}
+			});
+		}
+    </script>
+#loading_close</body>
+</html>

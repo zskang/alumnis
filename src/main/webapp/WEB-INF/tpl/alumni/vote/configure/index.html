@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+	#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}"> 
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<!-- 主体操作栏 -->
+            	<header class="header navbar bb">
+            		<!-- 左按钮区 -->
+                    <div class="btn-group tool-button">
+						<form class="form-inline">
+							<div class="form-group">
+								<a class="btn btn-primary navbar-btn" href="$!basePath/alumni/news/$!type"><i class="ti-angle-left"></i> 返回</a>
+								<a href="javascript:addRow();" class="btn btn-primary navbar-btn"><i class="ti-plus"></i> 新增</a>
+							</div>
+							<div class="form-group" style="margin-right: 20px;">
+								#if($!voteType == "1")
+								<label class="radio-inline">
+									<input type="radio" name="voteType" value="0">单选
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="voteType" value="1" checked>多选
+								</label>
+								#else
+								<label class="radio-inline">
+									<input type="radio" name="voteType" value="0" checked>单选
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="voteType" value="1">多选
+								</label>
+								#end
+							</div>
+							#if($!voteType == "1")
+							<div id="topLimitDiv" class="form-group">
+								投票上限:
+									<input onblur="checkNum(this)" value="$!topLimit">
+							</div>
+							#else
+							<div id="topLimitDiv" class="form-group" style="display:none">
+								投票上限:
+									<input onblur="checkNum(this)" value="$!topLimit">
+							</div>
+							#end
+						</form>
+                    </div>
+                    <div class="pull-right offscreen-right">
+                    </div>
+                </header>
+                <div class="content-wrap">
+					<style>
+						input.input{
+							width : 80%;
+						}
+					</style>
+                   	<div class="wrapper">
+						<form id="alumniVoteConfigureForm" action="$!basePath/alumni/news/$!type/vote/configure/${newsId}" method="post">
+							<div class="row">
+								<div class="col-lg-12 table-responsive">
+									<table id="alumniVoteConfigureTable" class="table no-m">
+										<thead>
+										<tr>
+											<th hidden>ID</th>
+											<th class="col-md-4">选项</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody>
+										#foreach($obj in $list)
+										<tr>
+											<td hidden>$obj.id</td>
+											<td><input class="input" type="text" name="name" value="$!obj.name" placeholder="选项"></td>
+											<td>
+												<div class="btn-group">
+													<button type="button" class="btn btn-default btn-xs dropdown-toggle"
+															data-toggle="dropdown">
+														<i class="ti-settings"></i>
+														<span class="ti-angle-down"></span>
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li>
+															<a href="javascript:;" onclick="saveRow(this)">保存</a>
+														</li>
+														<li><a href="javascript:;" onclick="del(this)">删除</a>
+														</li>
+														<li class="divider"></li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+										#end
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									#pager_ajax
+								</div>
+							</div>
+						</form>
+                	</div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+    #required_js
+    <!-- 页面组件脚本 -->
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+    <script type="text/javascript">
+		$(function(){
+			$('input:radio[name="voteType"]').click(function(){
+				var voteType = this.value;
+				$.post("$!basePath/alumni/news/setVoteType",{id:newsId,voteType:voteType},function(data){
+					if(data.success){
+						if(voteType == "1"){
+							$("#topLimitDiv").show();
+						}else{
+							$("#topLimitDiv").hide();
+						}
+					}else{
+						Toast.error(data.error);
+					}
+				});
+			});
+		});
+
+	    function del(obj){
+			var id = $(obj).parents("tr")[0].children[0].innerHTML;
+			if(id){
+				ns.tip.confirm("确定删除吗？", function(){
+					$.post("$!basePath/alumni/vote/configure/delete/"+id,{},function(data){
+						if(data.success == true){
+							Toast.success("删除成功！");
+							ns.back("$!basePath/alumni/news/$!type/vote/configure/${newsId}", 1000);
+						}else{
+							Toast.error(data.error);
+						}
+					});
+				});
+			}else{
+				$(obj).parents("tr")[0].remove();
+			}
+		}
+
+		var newsId = "$!newsId";
+		var emptyRow = '<tr><td hidden></td><td><input class="input" type="text" name="name" placeholder="选项"></td><td><div class="btn-group">' +
+				'<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+				'<i class="ti-settings"></i><span class="ti-angle-down"></span></button>' +
+				'<ul class="dropdown-menu" role="menu"><li><a href="javascript:;" onclick="saveRow(this)">保存</a></li>' +
+				'<li><a href="javascript:;" onclick="del(this)">删除</a></li><li class="divider"></li></ul></div></td></tr>';
+
+		function addRow(){
+			$("#alumniVoteConfigureTable tbody").append(emptyRow);
+		}
+
+		function saveRow(obj){
+			var tr = $(obj).parents("tr")[0];
+			var id = tr.children[0].innerHTML;
+			var name = tr.children[1].children[0].value.trim();
+			if(!name){
+				ns.alert("请填写投票选项！");
+				return;
+			}
+			$.post("$!basePath/alumni/vote/configure/save",{id:id,name:name,newsId,newsId},function(data){
+				if(data.success == true){
+					Toast.success("保存成功！");
+					ns.back("$!basePath/alumni/news/$!type/vote/configure/${newsId}", 1000);
+				}else{
+					Toast.error(data.error);
+				}
+			});
+		}
+
+		//验证正整数
+		function checkNum(obj){
+			if(obj.value){
+				var flag = /^0$|^[1-9][0-9]*$/i.test(obj.value);
+				if(flag){
+					$(obj).css({"border-color":"initial"});
+					$.post("$!basePath/alumni/news/setTopLimit",{id:newsId,topLimit:obj.value},function(data){
+						if(data.success){
+
+						}else{
+							Toast.error(data.error);
+						}
+					});
+				}else{
+					$(obj).css({"border-color":"red"});
+				}
+			}
+		}
+
+
+    </script>
+	#loading_close
+</body>
+</html>

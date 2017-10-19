@@ -1,0 +1,262 @@
+<!-- 字符串截取 -->
+#macro( substring $value $len)
+	#if($value.length()<=$len)
+		$value
+	#else
+		$value.substring(0,$len)...
+	#end
+#end
+#macro (pager $formId)
+	#if($!pageBean.totalCount > 0)
+	<div class="pull-left mt20 text-muted">
+		 第$!pageBean.page/$!pageBean.pageCount页，每页显示$!pageBean.rows条，共$!pageBean.totalCount条数据
+	</div>
+	<div class="pull-right">
+		<ul id="__pageControl" class="pagination">
+			<li #if($!pageBean.isFirstPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isFirstPage())onclick="__jumpPage(1)"#end>首页</a></li>
+			<li #if($!pageBean.isFirstPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isFirstPage())onclick="__prevPage()"#end>上一页</a></li>
+			#if($!pageBean.pageCount > 0)
+				#set($visableCount = 5)
+				#if($!pageBean.pageCount <= $visableCount)
+					#foreach($page in [1..$!pageBean.pageCount])
+					<li class="offscreen-right #if($page == $!pageBean.page)active#end"><a href="javascript:;" #if($page != $!pageBean.page)onclick="__jumpPage($!page)"#end>$!page</a></li>
+					#end
+				#else
+					#set($middle = $visableCount / 2)
+					#foreach($temp in [1..$visableCount])
+						#if($!pageBean.page <= $middle)
+							#set($page = $temp)
+						#elseif($!pageBean.page + $middle > $pageBean.pageCount)
+							#set($page = $pageBean.pageCount - $visableCount + $temp)
+						#else
+							#set($page = $!pageBean.page - $middle + $temp - 1)
+						#end
+						<li class="offscreen-right #if($page == $!pageBean.page)active#end"><a href="javascript:;" #if($page != $!pageBean.page)onclick="__jumpPage($!page)"#end>$!page</a></li>
+					#end
+				#end
+			#end
+			<li #if($!pageBean.isEndPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isEndPage())onclick="__nextPage()"#end>下一页</a></li>
+			<li #if($!pageBean.isEndPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isEndPage())onclick="__jumpPage($!pageBean.pageCount)"#end>尾页</a></li>
+		</ul>
+	</div>
+	<input type="hidden" name="page" value="$!pageBean.page"/>
+	<script type="text/javascript">
+	var __pageCount = $!pageBean.pageCount;
+	var __currentPage = $!pageBean.page;
+	
+	function __jumpPage(page){
+		if(__pageCount == 0)
+			return;
+		//判断是否是当前页
+		var __pageControl = $("#__pageControl");
+		#if($formId)
+		var form = $("$!formId");
+		if(form.find("input[name='page']:hidden").length > 0){
+			form.find("input[name='page']:hidden").val(page);
+			form.submit();
+		}else{
+			form.append("<input type=\"hidden\" name=\"page\" value=\""+page+"\"/>");
+			form.submit();
+		}
+		#else
+		__pageControl.parents("form").find("input[name='page']:hidden").val(page);
+		__pageControl.parents("form").submit();
+		#end
+		
+	}
+	function __prevPage(){
+		if(__currentPage > 0){
+			__currentPage--;
+		}
+		__jumpPage(__currentPage);
+	}
+	function __nextPage(){
+		if(__currentPage < __pageCount){
+			__currentPage++;
+		}
+		__jumpPage(__currentPage);
+	}
+	</script>
+	#end
+#end
+#macro (pager_ajax $formId)
+#if($!pageBean.totalCount > 0)
+	<div id="__pager">
+		<div class="pull-left mt20 text-muted">
+			 第$!pageBean.page/$!pageBean.pageCount页，每页显示$!pageBean.rows条，共$!pageBean.totalCount条数据
+		</div>
+		<div class="pull-right">
+			<ul id="__pageControl" class="pagination">
+				<li #if($!pageBean.isFirstPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isFirstPage())onclick="__jumpPage(1)"#end>首页</a></li>
+				<li #if($!pageBean.isFirstPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isFirstPage())onclick="__prevPage()"#end>上一页</a></li>
+				#if($!pageBean.pageCount > 0)
+					#set($visableCount = 5)
+					#if($!pageBean.pageCount <= $visableCount)
+						#foreach($page in [1..$!pageBean.pageCount])
+						<li class="offscreen-right #if($page == $!pageBean.page)active#end"><a href="javascript:;" #if($page != $!pageBean.page)onclick="__jumpPage($!page)"#end>$!page</a></li>
+						#end
+					#else
+						#set($middle = $visableCount / 2)
+						#foreach($temp in [1..$visableCount])
+							#if($!pageBean.page <= $middle)
+								#set($page = $temp)
+							#elseif($!pageBean.page + $middle > $pageBean.pageCount)
+								#set($page = $pageBean.pageCount - $visableCount + $temp)
+							#else
+								#set($page = $!pageBean.page - $middle + $temp - 1)
+							#end
+							<li class="offscreen-right #if($page == $!pageBean.page)active#end"><a href="javascript:;" #if($page != $!pageBean.page)onclick="__jumpPage($!page)"#end>$!page</a></li>
+						#end
+					#end
+				#end
+				<li #if($!pageBean.isEndPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isEndPage())onclick="__nextPage()"#end>下一页</a></li>
+				<li #if($!pageBean.isEndPage())class="disabled"#end><a href="javascript:;" #if(!$!pageBean.isEndPage())onclick="__jumpPage($!pageBean.pageCount)"#end>尾页</a></li>
+			</ul>
+		</div>
+		<input type="hidden" name="page" value="$!pageBean.page"/>
+	</div>
+	<script type="text/javascript">
+	var __pageCount = $!pageBean.pageCount;
+	var __currentPage = $!pageBean.page;
+
+	//空方法，其他页面重写
+	function afterJumpPage(){
+
+	}
+	
+	function __jumpPage(page){
+		if(__pageCount == 0)
+			return;
+		__currentPage = page;
+		//判断是否是当前页
+		var __pageControl = $("#__pageControl");
+		#if($!formId)
+		var form = $("$!formId");
+		#else
+		var form = __pageControl.parents("form");
+		#end
+		ns.showLoadingbar($(".main-content"));
+		var params = ns.formAttrs(form);
+		if(form.attr("paramsLink")){//联合其他表单的参数
+			var attrs = ns.formAttrs(form.attr("paramsLink"));
+			$.each(attrs, function(i,n){
+				params[i] = n;
+			});
+		}
+		params.page = page;
+		var fid = form.attr("id");
+		var timer = setTimeout(function(){$("#"+fid).html(ns.tip.progress.circle());},100);//延迟显示，提高网速顺畅时的浏览体验
+		jQuery.post(form.attr("action"),params,function(data){
+			clearTimeout(timer);
+			if(data.indexOf("<HTML".toLowerCase())>=0)
+				data = data.substring(data.indexOf("<HTML".toLowerCase()));
+			else
+				data = "<div>"+data+"</div>";
+			if(fid){
+				var content = $("#"+fid,data).html();
+				form.html(content);
+			}else{
+				var action = form.attr("action");
+				var content = $("form[action='"+action+"']",data).html();
+				form.html(content);	
+			}
+			#if($!formId)
+			var __pager = $("#__pager", data).html();
+			$("#__pager").html(__pager);
+			#end
+			ns.closeLoadingbar($(".main-content"));
+			ns.init2();
+			afterJumpPage();
+		});
+	}
+	function __prevPage(){
+		if(__currentPage > 0){
+			__currentPage--;
+		}
+		__jumpPage(__currentPage);
+	}
+	function __nextPage(){
+		if(__currentPage < __pageCount){
+			__currentPage++;
+		}
+		__jumpPage(__currentPage);
+	}
+	</script>
+	#end
+#end
+#macro (loading)
+<div class="gallery-loader" style="background-color:transparent;"><div class="loader"></div></div>
+#end
+#macro (loading_close)
+<script type="text/javascript">
+	try{
+		$(".gallery-loader").fadeOut(function(){
+			$(".gallery-loader").remove();
+		});
+	}catch(e){}
+</script>
+#end
+
+#macro (required_css)
+<meta name="renderer" content="webkit">
+<link rel="shortcut icon" href="$!basePath/framework/img/logo.png">
+<!-- 必需样式 -->
+<link rel="stylesheet" href="$!basePath/framework/bootstrap/css/bootstrap.min.css" type='text/css' media='screen'>
+<link rel="stylesheet" href="$!basePath/framework/css/font-awesome.css" type='text/css' media='screen'>
+<link rel="stylesheet" href="$!basePath/framework/css/themify-icons.css" type='text/css' media='screen'>
+<link rel="stylesheet" href="$!basePath/framework/css/animate.min.css" type='text/css' media='screen'>
+<!-- 模板（布局）样式 -->
+<link rel="stylesheet" href="$!basePath/framework/css/skins/$!{theme}.css" id="skin" type='text/css' media='screen'>
+<link rel="stylesheet" href="$!basePath/framework/css/fonts/font.css" type='text/css' media='screen'>
+<link rel="stylesheet" href="$!basePath/framework/css/main.css" type='text/css' media='screen'>
+<!-- 兼容IE9以下的浏览器  -->
+<!--[if lt IE 9]>
+    <script src="$!basePath/framework/js/html5shiv.js"></script>
+    <script src="$!basePath/framework/js/system/respond.min.js"></script>
+    <script src="$!basePath/framework/js/json2.js"></script>
+<![endif]-->	
+<!-- 风格切换 -->
+<link rel="stylesheet" href="$!basePath/framework/css/panel.css" type='text/css' media='screen'>
+<!-- load modernizer -->
+<script src="$!basePath/framework/plugins/modernizr.js"></script>
+#end
+#macro (required_js)
+<input type="hidden" id="__basePath" value="$!basePath" />
+<input type="hidden" id="__uploadPath" value="$!uploadPath" />
+<!-- 必需脚本 -->
+<script src="$!basePath/framework/plugins/jquery-1.11.1.min.js"></script>
+<script src="$!basePath/framework/bootstrap/js/bootstrap.js"></script>
+<script src="$!basePath/framework/plugins/jquery.slimscroll.min.js"></script>
+<script src="$!basePath/framework/plugins/jquery.easing.min.js"></script>
+<script src="$!basePath/framework/plugins/appear/jquery.appear.js"></script>
+<script src="$!basePath/framework/plugins/jquery.placeholder.js"></script>
+<script src="$!basePath/framework/plugins/fastclick.js"></script>
+<script src="$!basePath/framework/js/main.js"></script>
+<!-- 模板（布局）脚本 -->
+<script src="$!basePath/framework/js/offscreen.js"></script>
+<!-- 风格切换脚本 -->
+<script src="$!basePath/framework/js/view/theme.js"></script>
+<!-- 显示提示脚本 -->
+<script src="$!basePath/framework/js/view/tip.js"></script>
+#end
+#macro (title)
+#parse("/_globals/title.html")
+#end
+#macro (title2)
+#parse("/_globals/title2.html")
+#end
+#macro (stylepage)
+#parse("/_globals/style.html")
+#end
+#macro (header)
+#parse("/_globals/header.html")
+#end
+#macro (header_doc)
+#parse("/_globals/header_doc.html")
+#end
+#macro (sidebar)
+#parse("/_globals/sidebar.html")
+#end
+#macro (copyright)
+#parse("/_globals/copyright.html")
+#end

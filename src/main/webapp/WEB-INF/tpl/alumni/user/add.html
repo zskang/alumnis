@@ -1,0 +1,562 @@
+ <!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    
+    <title>#title</title>
+    #required_css
+</head>
+
+<body>#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}">
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<!-- 主体操作栏 -->
+            	<header class="header navbar bb">
+            		<!-- 左按钮区 -->
+                    <div class="btn-group tool-button">
+                    	<a class="btn btn-primary navbar-btn" href="$!basePath/alumni/user"><i class="ti-angle-left"></i> 返回</a>
+                    </div>
+                </header>
+                <div class="content-wrap">
+                   	<div class="wrapper pt20">
+						<form id="alumniUserAddForm" role="form" class="form-horizontal parsley-form"
+							  data-parsley-validate action="$!basePath/alumni/user/add/do" method="post">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">学号:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="code" placeholder="学号"
+												   maxlength="20" data-parsley-maxlength="20" >
+										</div>
+										<label class="col-sm-1 control-label">密码:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="password" placeholder="密码" data-parsley-required="true"
+												   data-parsley-length="[6,16]" >
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">姓名:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="name" placeholder="姓名" data-parsley-required="true"
+												   data-parsley-byterangelength="20">
+										</div>
+										<label class="col-sm-1 control-label">性别:</label>
+										<div class="col-sm-5">
+											<label class="radio-inline">
+												<input type="radio" name="xb" value="男" checked> 男
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="xb" value="女"> 女
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">证件号:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="idcard" placeholder="证件号" data-parsley-required="true"
+												   data-parsley-pattern="/^\d{15}(\d{2}[A-Za-z0-9])?$/">
+										</div>
+										<label class="col-sm-1 control-label">出生日期:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control datepicker" name="csrq" placeholder="出生日期" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">手机号:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="mobile" placeholder="手机号" data-parsley-required="true"
+												   data-parsley-pattern="/^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/">
+										</div>
+										<label class="col-sm-1 control-label">民族:</label>
+										<div class="col-sm-5">
+											<select name="mz" class="form-control">
+												#foreach($!obj in $!nation)
+												<option value="$!obj.name">$!obj.name</option>
+												#end
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">QQ:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="qq" placeholder="qq"
+												   data-parsley-pattern="/^[1-9]\d{4,9}$/">
+										</div>
+										<label class="col-sm-1 control-label">微信:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="wechat" placeholder="微信" data-parsley-byterangelength="20">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">入学年份:</label>
+										<div class="col-sm-5">
+											<select name="rxnf" class="form-control" data-parsley-required="true">
+												#foreach($!obj in $!yearRange)
+												<option value="$!obj.value">$!obj.name</option>
+												#end
+											</select>
+										</div>
+										<label class="col-sm-1 control-label">毕业年份:</label>
+										<div class="col-sm-5">
+											<select name="bynf" class="form-control">
+												#foreach($!obj in $!yearRange)
+												<option value="$!obj.value">$!obj.name</option>
+												#end
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">专业:</label>
+										<div class="col-sm-5">
+											<div class="input-group">
+												<input hidden name="zyh">
+												<input type="text" class="form-control" name="zyfx" data-parsley-required="true" placeholder="选择专业后自动选择学院" readonly>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogSelectZy"><i class="ti-plus"></i> 选择</button>
+											</span>
+											</div>
+										</div>
+										<label class="col-sm-1 control-label">学院:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="xymc" placeholder="学院" readonly>
+											<input hidden name="xsh" >
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">行业:</label>
+										<div class="col-sm-5">
+											<div class="input-group">
+												<input type="text" class="form-control" name="industry" placeholder="行业" readonly>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogSelectHy"><i class="ti-plus"></i> 选择</button>
+											</span>
+											</div>
+										</div>
+										<label class="col-sm-1 control-label">班级:</label>
+										<div class="col-sm-5">
+											<div class="input-group">
+												<input type="text" class="form-control" name="bm" placeholder="班级" readonly>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#dialogSelectClass"><i class="ti-plus"></i> 选择</button>
+											</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">学历:</label>
+										<div class="col-sm-5">
+											<select name="xw" class="form-control">
+												<option value="学士">学士</option>
+												<option value="无">无</option>
+											</select>
+										</div>
+										<label class="col-sm-1 control-label">学制:</label>
+										<div class="col-sm-5">
+											<select name="xz" class="form-control">
+												<option value="4">4</option>
+												<option value="3">3</option>
+												<option value="2">2</option>
+												<option value="1">1</option>
+												<option value="0.5">0.5</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">邮箱:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="email" placeholder="邮箱"
+												   data-parsley-required="true" data-parsley-type="email">
+										</div>
+										<label class="col-sm-1 control-label">学生类型:</label>
+										<div class="col-sm-5">
+											<select name="xslb" class="form-control">
+												#foreach($!obj in $!xslb)
+												<option value="$!obj.name">$!obj.name</option>
+												#end
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">单位名称:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="companyName" placeholder="单位名称"
+												   data-parsley-byterangelength="100">
+										</div>
+										<label class="col-sm-1 control-label">通信地址:</label>
+										<div class="col-sm-5">
+											<div class="input-group">
+												<input type="text" class="form-control" name="region" placeholder="通信地址" readonly>
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-primary" data-toggle="modal"
+															data-target="#dialogSelectRegion"><i class="ti-plus"></i> 选择
+													</button>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">详细地址:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="address" placeholder="详细地址"
+												   data-parsley-byterangelength="100">
+										</div>
+										<label class="col-sm-1 control-label">校友会职位:</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" name="position" placeholder="校友会职位"
+												   data-parsley-byterangelength="20">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">头像:</label>
+										<div class="col-sm-5">
+											<img id="imgId" >
+											<input type="hidden" name="photo" >
+										</div>
+										<div class="col-sm-1">
+											<button type="button" onclick="uploadFile()">上传图片</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="col-lg-12">
+								<div class="form-group text-center">
+									<div>
+										<button class="btn btn-primary btn-block btn-lg btn-parsley"
+												data-loading-text="正在提交...">提 交
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+                    </div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+
+	<!--选择专业-->
+	<div id="dialogSelectZy" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">选择专业</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<div id="jsTreeZy" class="demo"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+					<button type="button" class="btn btn-primary" onclick="selectZy()">确认选择</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--选择行业-->
+	<div id="dialogSelectHy" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">选择行业</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<div id="jsTreeHy" class="demo"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+					<button type="button" class="btn btn-primary" onclick="selectHy()">确认选择</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!--选择班级-->
+<div id="dialogSelectClass" class="modal fade bs-modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 60%;height:100%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">选择班级</h4>
+			</div>
+			<div class="modal-body" style="width: 100%;height:600px;">
+				<iframe name="selectFrame" frameborder="0" style="width:100%;height:100%;" src="$!basePath/campus/commoncode/class"></iframe>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+				<button type="button" class="btn btn-primary" onclick="selectClass()">确认选择</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--选择辖区-->
+<div id="dialogSelectRegion" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">选择辖区</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="jsTreeRegion" class="demo"></div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+				<button type="button" class="btn btn-primary" onclick="selectRegion()">确认选择</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+    #required_js
+
+    <!-- 页面组件脚本 -->
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/form/form.js"></script>
+	<script src="$!basePath/framework/js/form/date.js"></script>
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+	<script src="$!basePath/framework/js/view/tree.js"></script>
+    <script src="$!basePath/framework/js/form/validator.js"></script>
+	<script src="$!basePath/framework/plugins/parsley/parsley.extend.js"></script>
+	<script src="$!basePath/framework/js/form/uploader.js"></script>
+
+    <script type="text/javascript">
+		function initTreeView(){
+			//专业树
+			$("#jsTreeZy").jstree({
+				plugins : [ "wholerow"],
+				core : {
+					data : {
+						url : function(node){
+							return "$!basePath/campus/commoncode/tree/major"
+						}
+					},
+					multiple : false
+				}
+			}).on("dblclick.jstree", function(node){
+				selectZy();
+			});
+			//行业树
+			$("#jsTreeHy").jstree({
+				plugins : [ "wholerow"],
+				core : {
+					data : {
+						url : function(node){
+							return "$!basePath/campus/commoncode/tree/industry"
+						}
+					},
+					multiple : false
+				}
+			}).on("dblclick.jstree", function(node){
+				selectHy();
+			});
+			//辖区树
+			$("#jsTreeRegion").jstree({
+				plugins : [ "wholerow"],
+				core : {
+					data : {
+						url : function(node){
+							return "$!basePath/campus/commoncode/tree/region"
+						}
+					},
+					multiple : false
+				}
+			}).on("dblclick.jstree", function(node){
+				selectRegion();
+			});
+		}
+
+		//选择辖区
+		function selectRegion(){
+			var tree = $.jstree.reference("#jsTreeRegion");
+			var node = tree.get_selected(true);
+			if(node.length>0){
+				if(node[0].icon==true){
+					ns.tip.alert("请选择具体的辖区！");
+				}else{
+					$("#alumniUserAddForm input[name='region']").val(node[0].original.qc);
+					$("#dialogSelectRegion").modal("hide");
+				}
+			}
+		}
+
+		//选择专业
+		function selectZy(){
+			var tree = $.jstree.reference("#jsTreeZy");
+			var node = tree.get_selected(true);
+			if(node.length>0){
+				if(node[0].icon==true){//选择的是学院
+					$("#alumniUserAddForm input[name='xsh']").val(node[0].id);
+					$("#alumniUserAddForm input[name='xymc']").val(node[0].text);
+				}else{//选择的是专业
+					$("#alumniUserAddForm input[name='zyh']").val(node[0].id);
+					$("#alumniUserAddForm input[name='zyfx']").val(node[0].text);
+					$("#alumniUserAddForm input[name='xsh']").val(node[0].parent);
+					var parentText = tree.get_text(node[0].parent);
+					$("#alumniUserAddForm input[name='xymc']").val(parentText);
+				}
+				$("#dialogSelectZy").modal("hide");
+			}
+		}
+
+		//选择行业
+		function selectHy(){
+			var tree = $.jstree.reference("#jsTreeHy");
+			var node = tree.get_selected(true);
+			if(node.length>0){
+				if(node[0].icon!=true){
+					$("#alumniUserAddForm input[name='industry']").val(node[0].text);
+					$("#dialogSelectHy").modal("hide");
+				}
+			}
+		}
+
+		//选择班级
+		function selectClass(){
+			var selectClass = selectFrame.getSelected();
+			if(selectClass){
+				$("#alumniUserAddForm input[name='bm']").val(selectClass);
+				$("#dialogSelectClass").modal("hide");
+			}else{
+				ns.tip.alert("请选择班级！");
+			}
+		}
+
+		$(function(){
+			$("#alumniUserAddForm").ajaxForm({
+				beforeSubmit:function(arr, $form, options){
+					var csrq = $('input[name="csrq"]').val();
+					var rxnf = $('select[name="rxnf"]').val();
+					var bynf = $('select[name="bynf"]').val();
+					if(csrq && csrq.substr(0,4)>=rxnf){
+						ns.tip.alert("出生年份不得大于入学年份！");
+						return false;
+					}
+					if(bynf && rxnf>=bynf){
+						ns.tip.alert("入学年份不得大于毕业年份！");
+						return false;
+					}
+					if(bynf && csrq && csrq.substr(0,4)>=bynf){
+						ns.tip.alert("出生年份不得大于毕业年份！");
+						return false;
+					}
+					ns.showLoadingbar();
+					//表单特殊验证
+					$form.find("button:submit").button("loading");
+				},
+				success : function(data, statusText, xhr, $form) {
+					if(data.success == true){
+						//提交成功
+						ns.tip.toast.success("保存成功！");
+					}else{
+						ns.tip.toast.error(data.error);
+					}
+					$form.find("button:submit").button("reset");
+				}
+			});
+			initTreeView();
+		});
+
+		function uploadFile(){
+			ns.form.uploader.open({
+				multiple : false,
+				filter : "png,jpg,jpeg,bmp",//待补充
+				success:function(path,name){
+					$('input[name="photo"]').val(path);
+					$("#imgId").attr("src","$!uploadPath"+path);
+				}
+			});
+		}
+			
+    </script>
+	#loading_close
+</body>
+</html>

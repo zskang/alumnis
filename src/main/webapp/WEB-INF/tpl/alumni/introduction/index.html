@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<title>#title</title>
+	#required_css
+</head>
+<body>
+#loading
+<!-- 风格切换 -->
+#stylepage
+<div class="app ${layout}">
+	<!-- 头部菜单 -->
+	#header
+	<section class="layout">
+		<!-- 菜单 -->
+		#sidebar
+		<!-- 内容主体 -->
+		<section class="main-content">
+			<div class="content-wrap">
+				<div class="wrapper">
+					<form id="alumniIntroductionForm" role="form" class="form-horizontal parsley-form"
+						  data-parsley-validate action="$!basePath/alumni/introduction/save" method="post">
+						<input type="hidden" name="id" value="$!introduction.id"/>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<div class="col-sm-12">
+										<div id="summernote">$!introduction.contentStr</div>
+										<textarea hidden name="contentStr">$!introduction.contentStr</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="col-lg-12">
+							<div class="form-group text-center">
+								<label></label>
+								<div>
+									<button class="btn btn-primary btn-block btn-lg btn-parsley"
+											data-loading-text="正在提交...">提 交
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<a class="exit-offscreen"></a>
+		</section>
+	</section>
+</div>
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/form/form.js"></script>
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script src="$!basePath/framework/js/form/summernote.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$('#summernote').summernote({lang:'zh-CN'});
+		$('#summernote').on('summernote.change', function(we, contents, $editable) {
+			$('textarea[name="contentStr"]').val(contents);
+		});
+		$("#alumniIntroductionForm").ajaxForm({
+			beforeSubmit:function(arr, $form, options){
+				var contentStr = $('textarea[name="contentStr"]').val();
+				if(!contentStr){
+					ns.tip.alert("请先填写内容！");
+					return false;
+				}
+				//表单特殊验证
+				$form.find("button:submit").button("loading");
+			},
+			success : function(data, statusText, xhr, $form) {
+				if(data.success == true){
+					//修改成功
+					ns.tip.toast.success("修改成功！");
+					$('input[name="id"]').val(data.id);
+				}else{
+					ns.tip.toast.error(data.error);
+				}
+				$form.find("button:submit").button("reset");
+			}
+		});
+	});
+
+</script>
+#loading_close
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+<div class="app ${layout}">
+    <section class="layout">
+        <!-- 内容主体 -->
+        <section class="main-content">
+            <!-- 主体操作栏 -->
+            <header class="header navbar bb">
+                <form class="form-horizontal" style="margin-top:20px;" role="form" id="myFindForm" onsubmit="return doSearch(this)">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级名称:</label>
+                        <div class="col-sm-3">
+                            <input name="className" type="text" class="form-control" placeholder="班级名称">
+                        </div>
+                        <button type="submit" class=" btn btn-default">查询</button>
+                    </div>
+                </form>
+            </header>
+            <div class="content-wrap">
+                <div class="wrapper">
+                    <form id="campusClassForm" action="$!basePath/campus/commoncode/class" method="post" paramsLink="#myFindForm">
+                        <div class="row">
+                            <div class="col-lg-12 table-responsive">
+                                <table id="campusClassTable" class="table no-m">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-1">班级名称</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    #foreach($obj in $list)
+                                    <tr>
+                                        <td>$!obj.id</td>
+                                        <td>$!obj.name</td>
+                                    </tr>
+                                    #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                #pager_ajax
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            function afterJumpPage(){
+                                initSelectEvent();
+                            }
+
+                            function initSelectEvent(){
+                                $("#campusClassTable tbody").find("tr").click(function(){
+                                    $("#campusClassTable tbody tr").css("background-color","");
+                                    $("#campusClassTable tbody tr").removeAttr("selected");
+                                     $(this).css({"background-color": "#BFFFE3"});
+                                    $(this).attr("selected","selected");
+                                });
+                            }
+                        </script>
+                    </form>
+                </div>
+            </div>
+            <a class="exit-offscreen"></a>
+        </section>
+    </section>
+</div>
+
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script type="text/javascript">
+    $(function(){
+        initSelectEvent();
+    });
+    function doSearch(form){
+        var attrs = ns.formAttrs($(form));
+        ns.asyncRequest("$!basePath/campus/commoncode/class", attrs, "#campusClassForm",initSelectEvent);
+        return false;
+    }
+
+    function getSelected(){
+        var selectedTr =  $("#campusClassTable tbody tr[selected='selected']");
+        if(selectedTr.length>0){
+            return selectedTr[0].innerText;
+        }
+    }
+</script>
+#loading_close
+</body>
+</html>

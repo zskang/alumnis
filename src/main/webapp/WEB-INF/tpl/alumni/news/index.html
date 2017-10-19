@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+	#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}"> 
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<!-- 主体操作栏 -->
+            	<header class="header navbar bb">
+            		<!-- 左按钮区 -->
+                    <div class="btn-group tool-button">
+						<form class="form-inline">
+							<div class="form-group">
+								<a href="$!basePath/alumni/news/$!type/add" class="btn btn-primary navbar-btn"><i class="ti-plus"></i> 新增</a>
+							</div>
+							<div class="form-group">
+								<label>评论:</label>
+								#if($!comment_open=="0")
+								<label class="radio-inline">
+									<input type="radio" name="comment_open" value="0" checked>公开
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="comment_open" value="1">不公开
+								</label>
+								#else
+								<label class="radio-inline">
+									<input type="radio" name="comment_open" value="0" >公开
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="comment_open" value="1" checked>不公开
+								</label>
+								#end
+							</div>
+						</form>
+                    </div>
+                    <div class="pull-right offscreen-right">
+						<button class="btn btn-primary navbar-btn" onclick="ns.view.toggleFilter('.cd-panel')"><i class="fa fa-sliders"></i> 筛选</button>
+                    </div>
+                </header>
+                <div class="content-wrap">
+                   	<div class="wrapper">
+                   		<form id="alumniNewsForm" action="$!basePath/alumni/news/$!type" method="post" paramsLink="#myFindForm">
+	                        <div class="row">
+	                        	<div class="col-lg-12 table-responsive">
+									<table id="alumniNewsTable" class="table no-m">
+										<thead>
+										<tr>
+											<th class="col-md-2">标题</th>
+											<th class="col-md-1">点赞数</th>
+											<th class="col-md-1">浏览次数</th>
+											<th class="col-md-2">日期</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody>
+										#foreach($obj in $list)
+										<tr>
+											<td>$!obj.title</td>
+											<td>
+												#if($obj.agree!=0)
+												$!obj.agree
+												#end
+												</td>
+											<td>$!obj.browse</td>
+											<td>$!obj.newsTime</td>
+											<td>
+												<div class="btn-group">
+													<button type="button" class="btn btn-default btn-xs dropdown-toggle"
+															data-toggle="dropdown">
+														<i class="ti-settings"></i>
+														<span class="ti-angle-down"></span>
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														#if($!obj.top=="1")
+														<li><a href="javascript:;" onclick="setTop('${obj.id}','0')">置顶</a></li>
+														#else
+														<li><a href="javascript:;" onclick="setTop('${obj.id}','1')">取消置顶</a></li>
+														#end
+														<li><a href="$!basePath/alumni/news/$!type/edit/${obj.id}">修改</a></li>
+														<li><a href="javascript:;" onclick="del('${obj.id}','$obj.countBanner')">删除</a></li>
+														#if($!obj.countBanner=="0")
+														<li><a href="javascript:;" onclick="openBannerDialog('${obj.id}')">设为首页Banner</a></li>
+														#end
+														<li><a href="$!basePath/alumni/news/$!type/comment/${obj.id}">查看评论</a></li>
+														<li class="divider"></li>
+														#if($!type=="2")
+														<li><a href="$!basePath/alumni/news/$!type/enter/${obj.id}">查看报名</a></li>
+														<li><a href="$!basePath/alumni/news/$!type/vote/${obj.id}">查看投票</a></li>
+														<li><a href="$!basePath/alumni/news/$!type/vote/configure/${obj.id}">投票设置</a></li>
+														#else
+														#end
+													</ul>
+												</div>
+											</td>
+										</tr>
+										#end
+										</tbody>
+									</table>
+	                            </div>
+	                        </div>
+	                        <div class="row">
+	                        	<div class="col-lg-12">
+	                        	#pager_ajax
+	                        	</div>
+	                    	</div>
+                    	</form>
+                	</div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+
+	<div class="cd-panel from-right">
+		<div class="cd-panel-container shadow">
+			<header class="cd-panel-header">
+				<h4>筛选</h4>
+				<a href="javascript:$('.cd-panel').click();" class="cd-panel-close text-center"><i class="ti-close"></i>
+				</a>
+			</header>
+			<div class="cd-panel-content">
+				<form role="form" id="myFindForm" onsubmit="return doSearch(this);">
+					<div class="form-group">
+						<label>日期:</label>
+						<input type="text" class="form-control datepicker" name="date" placeholder="日期"  readonly>
+					</div>
+					<div class="form-group">
+						<label>标题:</label>
+						<input name="title" type="text" class="form-control" placeholder="标题" autofocus>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-5">
+							<button type="submit" class="btn btn-default">查询</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--设置banner轮播-->
+	<div id="dialogSetBanner" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">选择Banner图</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<form role="form" id="setBannerForm" enctype="multipart/form-data" action="$!basePath/alumni/banner/save" method="post">
+								<div class="form-group">
+									<label>预览图:请上传.png.jpg.jpeg.bmp格式,比例为16:7的图片</label>
+									<input hidden name="newsId">
+									<input type="file" class="form-control" name="file">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+					<button type="button" class="btn btn-primary" onclick="selectBanner()">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	#required_js
+    <!-- 页面组件脚本 -->
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+	<script src="$!basePath/framework/js/form/form.js"></script>
+	<script src="$!basePath/framework/js/form/date.js"></script>
+    <script type="text/javascript">
+
+		$(function(){
+			$('input:radio[name="comment_open"]').click(function(){
+				$.post("$!basePath/alumni/comment/open",{value:$(this).val(),type:"$!type"},function(data){
+					if(data.success == true){
+					}else{
+						Toast.error(data.error);
+					}
+				});
+			});
+
+			$("#setBannerForm").ajaxForm({
+				beforeSubmit:function(arr, $form, options){
+					var name = $form.find("input:file").val();
+					if(!name){
+						ns.alert("请选择图片！");
+						return false;
+					}
+					var ext = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+					if(".png.jpg.jpeg.bmp".indexOf(ext)<0){
+						ns.alert("请上传.png.jpg.jpeg.bmp格式的图片！");
+						return false;
+					}
+					ns.showProgress();
+				},
+				success : function(data, statusText, xhr, $form) {
+					if(data.success == true){
+						//提交成功
+						ns.tip.toast.success("保存成功！");
+						$("#dialogSetBanner").modal("hide");
+					}else{
+						ns.tip.toast.error(data.error);
+					}
+					ns.closeProgress();
+				}
+			});
+		});
+
+	    function del(id,count){
+			var title = "确定删除吗？";
+			if(count>0){
+				title = "此新闻已设为首页Banner，"+title;
+			}
+	    	ns.tip.confirm(title, function(){
+	    		$.post("$!basePath/alumni/news/delete",{id:id,type:"$!type"},function(data){
+					if(data.success == true){
+						Toast.success("删除成功！");
+						ns.back("$!basePath/alumni/news/$!type", 2000);
+					}else{
+						Toast.error(data.error);
+					}
+				});
+	    	});
+		}
+
+		function setTop(id,top){
+			$.post("$!basePath/alumni/news/setTop/",{id:id,top:top},function(data){
+				if(data.success == true){
+					Toast.success("操作成功！");
+					ns.back("$!basePath/alumni/news/$!type", 1000);
+				}else{
+					Toast.error(data.error);
+				}
+			});
+		}
+
+		function doSearch(form){
+			var attr = ns.formAttrs($(form));
+			ns.asyncRequest("$!basePath/alumni/news/$!type", attr, "#alumniNewsForm");
+			return false;
+		}
+
+		function openBannerDialog(id){
+			$.post("$!basePath/alumni/banner/count",function(data){
+				if(data.success == true){
+					if(data.count<5){
+						$("#dialogSetBanner").modal("show");
+						$('#setBannerForm input[name="newsId"]').val(id);
+					}else{
+						ns.alert("首页轮播图已满！");
+					}
+				}else{
+					ns.alert(data.error);
+				}
+			});
+		}
+
+		function selectBanner(){
+			$("#setBannerForm").submit();
+		}
+    </script>
+	#loading_close
+</body>
+</html>

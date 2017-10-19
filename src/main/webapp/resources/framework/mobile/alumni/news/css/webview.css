@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+html, body { height: 100%; }
+html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100% }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0 }
+ul, ol { list-style: none }
+p{ text-decoration:none;}
+.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.cl { zoom: 1; }
+a { text-decoration: none; }
+h2, h3, h4, h5{ font-family: "Microsoft YaHei"; }
+html{ font-size:100%;}
+body {  font-size:12px; font:1.2em/1.7 "microsoft yahei", "Tahoma", \5b8b\4f53, Arial;color: #444; }
+img{ border:none; border:0;}
+
+/*webview*/
+.content{ margin:0 5%; text-align:left;}
+.title{ float:left; width:100%; font-weight:bolder; font-size:1.2rem; padding-bottom:1rem;}
+.xbt{ float:left; width:100%; border-bottom:1px solid #dedede; padding-bottom:0.2rem; margin-bottom:0.2rem; color:#979797;}
+.time{ float:left; width:50%;}
+.total{ float:left;width:5%;}
+.total img{ width:100%; height:auto;}
+.pic{ float:left;width:100%;}
+.pic img{ width:100%; height:auto;}
+
+
+
+
+
+
+
+@media only screen and (min-width: 640px){
+.wp { max-width: 640px; }
+}
+@media only screen and (max-width: 600px) {
+.wp { max-width: 600px; }
+html { font-size:100%;}
+}
+@media only screen and (max-width: 480px) {
+.wp { max-width: 480px; }
+html { font-size:75%;}
+}
+@media only screen and (max-width: 360px) {
+.wp { max-width: 360px; }
+html { font-size:62.5%;}
+}

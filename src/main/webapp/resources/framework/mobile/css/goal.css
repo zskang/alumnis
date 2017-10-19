@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+.img_bl{ margin:0 0.75rem;}
+.content_bl{ color:#4d4d4d; font-size:0.76rem;}
+.color-gray{ font-size:0.7rem;}
+
+.bl_list{ width:30%; float:left; margin-left:0.4rem;}
+.bl_list img{ width:100%;}
+
+.img_box{width:100%; margin:0 0.2rem;}
+
+.new_title{ margin:0; padding:0; margin-top:0.3rem; color:#323232; font-size:0.85rem;}
+.new_bl{ margin:0 0.75rem;}
+
+.br_bl{ width:100%;}
+.br_bl img{width:100%;}

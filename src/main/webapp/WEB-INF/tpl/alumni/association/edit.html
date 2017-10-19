@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    
+    <title>#title</title>
+    #required_css
+</head>
+
+<body>#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}">
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<!-- 主体操作栏 -->
+            	<header class="header navbar bb">
+            		<!-- 左按钮区 -->
+                    <div class="btn-group tool-button">
+                    	<a class="btn btn-primary navbar-btn" href="$!basePath/alumni/association"><i class="ti-angle-left"></i> 返回</a>
+                    </div>
+                </header>
+                <div class="content-wrap">
+                   	<div class="wrapper pt20">
+						<form id="alumniAssociationEditForm" role="form" class="form-horizontal parsley-form"
+							  data-parsley-validate action="$!basePath/alumni/association/edit/do" method="post">
+							<input type="hidden" name="id" value="$!alumniAssociation.id"/>
+							<input type="hidden" name="groupId" value="$!alumniAssociation.groupId"/>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">名称:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="name" placeholder="名称" data-parsley-required="true"
+												   value="$!alumniAssociation.name"  data-parsley-byterangelength="50" >
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">简述:</label>
+										<div class="col-sm-10">
+											<textarea rows="6" class="form-control" name="summary"  data-parsley-byterangelength="1000"
+													  data-parsley-required="true"  placeholder="简述"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="col-lg-12">
+								<div class="form-group text-center">
+									<div>
+										<button class="btn btn-primary btn-block btn-lg btn-parsley"
+												data-loading-text="正在提交...">提 交
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+                    </div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+    #required_js
+    <!-- 页面组件脚本 -->
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/form/form.js"></script>
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+    <script src="$!basePath/framework/js/form/validator.js"></script>
+	<script src="$!basePath/framework/plugins/parsley/parsley.extend.js"></script>
+    
+    <script type="text/javascript">
+	$(function(){
+		//文本域赋值
+		$('textarea[name="summary"]')[0].innerHTML = "$!alumniAssociation.summary";
+		$("#alumniAssociationEditForm").ajaxForm({
+			beforeSubmit:function(arr, $form, options){
+				//表单特殊验证
+				$form.find("button:submit").button("loading");
+			},
+			success : function(data, statusText, xhr, $form) {
+				if(data.success == true){
+					//修改成功
+					ns.tip.toast.success("修改成功！");
+				}else{
+					ns.tip.toast.error(data.error);
+				}
+	            $form.find("button:submit").button("reset");
+        	}
+		});
+	});
+			
+    </script>
+	#loading_close
+</body>
+</html>

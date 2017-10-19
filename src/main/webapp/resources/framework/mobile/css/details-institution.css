@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+.school_name{font-size: 0.6rem;margin-top: -0.2rem;margin-left: 1rem;}
+.school_name_En{font-size: 0.5rem;margin-top:-0.7rem;margin-left:1rem;}
+.city_bl{font-size: 0.4rem;margin-top:-0.4rem;margin-left:1rem;}
+.ranking_bl{font-size: 0.4rem;margin-top:-0.6rem;margin-left:1rem;}
+.share_nbl span{ font-size:0.4rem; color:#676767;}
+.sb_1{ margin-left:0.5rem;}
+.head_pt img{ margin-right:0.5rem;}
+.neiron_bl p{margin-top:-0.8rem;}
+
+.vd_bl video{ width:100%;}
+.bt_js h4{padding-left:0.5rem; line-height:0.85rem;}
+.bt_js{ height:0.85rem; border-left:1px solid #e54851;}
+.un_line{ height:1px; background-color:#c0c0c0; margin:.5rem .5rem;}
+.im_bg{ width:100%;}
+.im_bg img{ width:100%; height:auto;}

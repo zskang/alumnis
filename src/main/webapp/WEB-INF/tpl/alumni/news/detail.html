@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>新闻详情</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="stylesheet" href="$!basePath/framework/mobile/alumni/news/css/webview.css">
+</head>
+<body>
+<div class="content">
+	<div class="title">$!alumniNews.title</div>
+	<div class="xbt">
+		<div class="time">$!alumniNews.newsTime</div>
+		<div class="total"><img src="$!basePath/framework/mobile/alumni/news/img/ic_reading@3x.png"></div> &nbsp;$!alumniNews.browse
+	</div>
+	$!alumniNews.contentStr
+</div>
+<script>
+	function getHeight(){
+		return document.getElementsByClassName("content")[0].scrollHeight;
+	}
+</script>
+</body>
+</html>

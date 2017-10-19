@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+#loading
+<!-- 风格切换 -->
+#stylepage
+<div class="app ${layout}">
+    <!-- 头部菜单 -->
+    #header
+    <section class="layout">
+        <!-- 菜单 -->
+        #sidebar
+        <!-- 内容主体 -->
+        <section class="main-content">
+            <!-- 主体操作栏 -->
+            <header class="header navbar bb">
+                <!-- 左按钮区 -->
+                <div class="btn-group tool-button">
+                    <button class="btn btn-primary navbar-btn" onclick="openMsgDialog()"><i class="fa fa-sliders"></i>发送短信</button>
+                    <button class="btn btn-primary navbar-btn" onclick="openEmailDialog()"><i class="fa fa-sliders"></i>发送邮件</button>
+                </div>
+                <div class="pull-right offscreen-right">
+                    <button class="btn btn-primary navbar-btn" onclick="ns.view.toggleFilter('.cd-panel')"><i class="fa fa-sliders"></i> 筛选</button>
+                </div>
+            </header>
+            <div class="content-wrap">
+                <div class="wrapper">
+                    <form id="alumniUserForm" action="$!basePath/alumni/communication/sms_mail" method="post" paramsLink="#myFindForm">
+                        <div class="row">
+                            <div class="col-lg-12 table-responsive">
+                                <table id="alumniUserTable" class="table no-m">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-1"><input type="checkbox" id="checkAll" onclick="onClick(this);"></th>
+                                        <th hidden>ID</th>
+                                        <th class="col-md-1">姓名</th>
+                                        <th class="col-md-1">姓别</th>
+                                        <th class="col-md-1">出生日期</th>
+                                        <th class="col-md-1">证件号</th>
+                                        <th class="col-md-1">手机号</th>
+                                        <th class="col-md-1">email</th>
+                                        <th class="col-md-1">入学年份</th>
+                                        <th class="col-md-1">专业</th>
+                                        <th class="col-md-1">QQ</th>
+                                        <th class="col-md-1">微信</th>
+                                        <th class="col-md-1">行业</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    #foreach($obj in $list)
+                                    <tr>
+                                        <td><input type="checkbox" name="check"></td>
+                                        <td hidden>$!obj.id</td>
+                                        <td>$!obj.campusStudent.name</td>
+                                        <td>$!obj.xb</td>
+                                        <td>$!obj.csrq</td>
+                                        <td>$!obj.campusStudent.idcard</td>
+                                        <td>$!obj.campusStudent.mobile</td>
+                                        <td>$!obj.campusStudent.email</td>
+                                        <td>$!obj.rxnf</td>
+                                        <td>$!obj.zyfx</td>
+                                        <td>$!obj.qq</td>
+                                        <td>$!obj.wechat</td>
+                                        <td>$!obj.industry</td>
+                                    </tr>
+                                    #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                #pager_ajax
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a class="exit-offscreen"></a>
+        </section>
+    </section>
+</div>
+
+<!--发送短信窗口-->
+<div id="dialogSendMsg" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">发送短信</h4>
+            </div>
+            <div class="modal-body">
+                 <textarea id="messageText" style="resize: none;width:100%;" rows="4"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button type="button" id="sendMsgBtn" data-loading-text="正在发送..."class="btn btn-primary" onclick="sendMsg()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--发送邮件窗口-->
+<div id="dialogSendEmail" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">发送邮件</h4>
+            </div>
+            <div class="modal-body">
+                <form id="alumniSendEmailForm" role="form" class="form-horizontal"
+                      data-parsley-validate action="$!basePath/alumni/communication/sendMail" method="post">
+                    <input hidden name="emailArr">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">主题:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="subject" data-parsley-required="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容:</label>
+                                <div class="col-sm-10">
+                                    <textarea name="message" data-parsley-required="true" style="resize: none;width:100%;" rows="6"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                <button type="button" id="sendEmailBtn" data-loading-text="正在发送..." class="btn btn-primary"  onclick="sendEmail()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cd-panel from-right" style="z-index: 2000">
+    <div class="cd-panel-container shadow">
+        <header class="cd-panel-header">
+            <h4>筛选</h4>
+            <a href="javascript:$('.cd-panel').click();" class="cd-panel-close text-center"><i class="ti-close"></i> </a>
+        </header>
+        <div class="cd-panel-content" style="height:88%;">
+            <form role="form" id="myFindForm" onsubmit="return doSearch(this)">
+                <div class="form-group">
+                    <label>姓名:</label>
+                    <input name="name" type="text" class="form-control" placeholder="姓名" autofocus>
+                </div>
+                <div class="form-group">
+                    <label>手机号:</label>
+                    <input name="mobile" type="text" class="form-control" placeholder="手机号">
+                </div>
+                <div class="form-group">
+                    <label>出生日期:</label>
+                    <input type="text" class="form-control datepicker" name="csrq" placeholder="出生日期" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input name="email" type="text" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label>入学年份:</label>
+                    <select name="rxnf" class="form-control">
+                        #foreach($!obj in $!yearRange)
+                        <option value="$!obj.value">$!obj.name</option>
+                        #end
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>专业:</label>
+                    <div class="input-group">
+                        <input hidden name="zyh">
+                        <input type="text" class="form-control" name="zyfx" placeholder="专业" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogSelectZy"><i class="ti-plus"></i> 选择</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>班级:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="className" placeholder="班级" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#dialogSelectClass"><i class="ti-plus"></i> 选择</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>行业:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="industry" placeholder="行业" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#dialogSelectHy"><i class="ti-plus"></i> 选择</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>辖区:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="region" placeholder="辖区" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#dialogSelectRegion"><i class="ti-plus"></i> 选择</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-5">
+                        <button type="submit" class="btn btn-default">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--选择专业-->
+    <div id="dialogSelectZy" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">选择专业</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="jsTreeZy" class="demo"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                    <button type="button" class="btn btn-primary" onclick="selectZy()">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--选择班级-->
+    <div id="dialogSelectClass" class="modal fade bs-modal-large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog" style="width: 60%;height:100%;" role="document" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">选择班级</h4>
+                </div>
+                <div class="modal-body" style="width: 100%;height:600px;">
+                    <iframe name="selectFrame" frameborder="0" style="width:100%;height:100%;" src="$!basePath/campus/commoncode/class"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                    <button type="button" class="btn btn-primary" onclick="selectClass()">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--选择行业-->
+    <div id="dialogSelectHy" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">选择行业</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="jsTreeHy" class="demo"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                    <button type="button" class="btn btn-primary" onclick="selectHy()">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--选择辖区-->
+    <div id="dialogSelectRegion" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">选择辖区</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="jsTreeRegion" class="demo"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取  消</button>
+                    <button type="button" class="btn btn-primary" onclick="selectRegion()">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/form/form.js"></script>
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script src="$!basePath/framework/js/form/validator.js"></script>
+<script src="$!basePath/framework/js/form/date.js"></script>
+<script src="$!basePath/framework/js/view/tree.js"></script>
+<script type="text/javascript">
+
+    function initTreeView(){
+        //专业树
+        $("#jsTreeZy").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/major"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectZy();
+        });
+        //行业树
+        $("#jsTreeHy").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/industry"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectHy();
+        });
+        //辖区树
+        $("#jsTreeRegion").jstree({
+            plugins : [ "wholerow"],
+            core : {
+                data : {
+                    url : function(node){
+                        return "$!basePath/campus/commoncode/tree/region"
+                    }
+                },
+                multiple : false
+            }
+        }).on("dblclick.jstree", function(node){
+            selectRegion();
+        });
+    }
+
+    //选择专业
+    function selectZy(){
+        var tree = $.jstree.reference("#jsTreeZy");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){//选择的是学院
+                ns.tip.alert("请选择具体的专业！");
+            }else{//选择的是专业
+                $("#myFindForm input[name='zyh']").val(node[0].id);
+                $("#myFindForm input[name='zyfx']").val(node[0].text);
+            }
+            $("#dialogSelectZy").modal("hide");
+        }
+    }
+
+    //选择行业
+    function selectHy(){
+        var tree = $.jstree.reference("#jsTreeHy");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){
+                ns.tip.alert("请选择具体的行业！");
+            }else{
+                $("#myFindForm input[name='industry']").val(node[0].text);
+                $("#dialogSelectHy").modal("hide");
+            }
+        }
+    }
+
+    //选择班级
+    function selectClass(){
+        var selectClass = selectFrame.getSelected();
+        if(selectClass){
+            $("#myFindForm input[name='className']").val(selectClass);
+            $("#dialogSelectClass").modal("hide");
+        }else{
+            ns.tip.alert("请选择班级！");
+        }
+    }
+
+    //选择辖区
+    function selectRegion(){
+        var tree = $.jstree.reference("#jsTreeRegion");
+        var node = tree.get_selected(true);
+        if(node.length>0){
+            if(node[0].icon==true){
+                ns.tip.alert("请选择具体的辖区！");
+            }else{
+                $("#myFindForm input[name='region']").val(node[0].original.qc);
+                $("#dialogSelectRegion").modal("hide");
+            }
+        }
+    }
+
+
+    function doSearch(form){
+        var attrs = ns.formAttrs($(form));
+        ns.asyncRequest("$!basePath/alumni/communication/sms_mail", attrs, "#alumniUserForm");
+        return false;
+    }
+
+    $(function(){
+        $("#alumniSendEmailForm").ajaxForm({
+            beforeSubmit:function(arr, $form, options){
+                var emailArr = getSelectedEmail();
+                arr[0].value = emailArr;
+                $("#sendEmailBtn").button("loading");
+            },
+            success : function(data, statusText, xhr, $form) {
+                if(data){
+                    ns.tip.toast.success("发送成功！");
+                }else{
+                    ns.tip.toast.error("发送失败！");
+                }
+                $("#sendEmailBtn").button("reset");
+                $("#dialogSendEmail").modal("hide");
+            }
+        });
+        initTreeView();
+    });
+
+    //全选事件
+    function onClick(obj){
+        if(obj.checked){
+            $('input[name="check"]:checkbox').each(function(){
+                $(this).prop("checked", true);
+            });
+        }else{
+            $('input[name="check"]:checkbox').each(function(){
+                $(this).prop("checked",false);
+            });
+        }
+    }
+
+    //获取勾选的手机号
+    function getSelectedMobile(){
+        var arr = [];
+        $('input[name="check"]:checkbox:checked').each(function(){
+            arr.push($(this).parents("tr").children()[6].innerHTML);
+        });
+        return arr;
+    }
+
+    //获取勾选的邮箱
+    function getSelectedEmail(){
+        var arr = [];
+        $('input[name="check"]:checkbox:checked').each(function(){
+            arr.push( $(this).parents("tr").children()[7].innerHTML);
+        });
+        return arr;
+    }
+
+    //打开发送邮件窗口
+    function openEmailDialog(){
+        var emailArr = getSelectedEmail();
+        if(emailArr.length==0){
+            ns.tip.alert("请先选择记录!");
+            return;
+        }
+        $("#dialogSendEmail").modal("show");
+    }
+
+    //打开发送短信窗口
+    function openMsgDialog(){
+        var phoneArr = getSelectedMobile();
+        if(phoneArr.length==0){
+            ns.tip.alert("请先选择记录!");
+            return;
+        }
+        $("#dialogSendMsg").modal("show");
+    }
+
+    //发送短信
+    function sendMsg(){
+        var message = $("#messageText").val().trim();
+        if(!message){
+            ns.tip.alert("请输入短信内容!");
+            return;
+        }
+        if(message.length>=300){
+            ns.tip.alert("短信内容不得超过300个字!");
+            return;
+        }
+        var phoneArr = getSelectedMobile();
+        $("#sendMsgBtn").button("loading");
+        $.post("$!basePath/alumni/communication/sendMessage",{message:message,phone:phoneArr.join()},function(data){
+            if(data.success == true) {
+                Toast.success("发送成功！");
+            }else{
+                Toast.error(data.error);
+            }
+            $("#sendMsgBtn").button("reset");
+            $("#dialogSendMsg").modal("hide");
+        });
+    }
+
+    function sendEmail(){
+        $("#alumniSendEmailForm").submit();
+    }
+</script>
+#loading_close
+</body>
+</html>

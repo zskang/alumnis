@@ -1,0 +1,32 @@
+<!-- 风格切换 --> 
+<div class="playground hidden-xs"> 
+	<div class="options">
+   		<div class="pg-close ti-close"></div> 
+   		<div class="options-container color-options"> 
+   			<h6>皮肤</h6>
+   			<a onclick="__changeTheme('palette')" href="$!basePath/framework/css/skins/palette.css" class="css_orange cs_color cs_1 #if($!theme=="palette")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.2')" href="$!basePath/framework/css/skins/palette.2.css" class="css_orange cs_color cs_2 #if($!theme=="palette.2")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.3')" href="$!basePath/framework/css/skins/palette.3.css" class="css_orange cs_color cs_3 #if($!theme=="palette.3")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.4')" href="$!basePath/framework/css/skins/palette.4.css" class="css_orange cs_color cs_4 #if($!theme=="palette.4")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.5')" href="$!basePath/framework/css/skins/palette.5.css" class="css_orange cs_color cs_5 #if($!theme=="palette.5")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.6')" href="$!basePath/framework/css/skins/palette.6.css" class="css_orange cs_color cs_6 #if($!theme=="palette.6")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.7')" href="$!basePath/framework/css/skins/palette.7.css" class="css_orange cs_color cs_7 #if($!theme=="palette.7")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<a onclick="__changeTheme('palette.8')" href="$!basePath/framework/css/skins/palette.8.css" class="css_orange cs_color cs_8 #if($!theme=="palette.8")active#end"> <div></div> <div></div> <div></div> <div></div> </a>
+   			<script type="text/javascript">
+   				function __changeTheme(theme){
+   					jQuery.post("$!basePath/index/changetheme", {theme:theme});
+   				}
+   			</script>
+   		</div>
+   		<div class="options-container"> 
+   			<h6>布局</h6>
+			<a class="pg-val toggle-vertical toggle-active #if($!layout == 'layout-v')active#end" href="javascript:;">
+				<img src="$!basePath/framework/img/panel/vertical.png" alt="">
+			</a>
+			<a class="pg-val toggle-sidebar toggle-active" href="javascript:;"> 
+				<img src="$!basePath/framework/img/panel/small.png" alt=""> 
+			</a>
+		</div>
+		<small class="pg-footer"><i class="ti-info-alt mr5"></i>自定义皮肤和布局</small>
+	</div>
+</div>

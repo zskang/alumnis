@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>可视化布局设计器 - #title</title>
+<link href="$!basePath/app/layoutit/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="$!basePath/framework/css/font-awesome.css">
+<link rel="stylesheet" href="$!basePath/framework/plugins/summernote/summernote.css">
+<link href="$!basePath/app/layoutit/css/layoutit.css" rel="stylesheet">
+<link href="$!basePath/app/layoutit/css/default.css" rel="stylesheet">
+<link href="$!basePath/app/layoutit/css/base.css" rel="stylesheet">
+<link href="$!basePath/app/layoutit/css/list.css" rel="stylesheet">
+<link href="$!basePath/app/layoutit/css/content.css" rel="stylesheet">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="$!basePath/app/layoutit/js/html5shiv.js"></script>
+<![endif]-->
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="$!basePath/app/layoutit/img/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="$!basePath/app/layoutit/img/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="$!basePath/app/layoutit/img/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="$!basePath/app/layoutit/img/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="$!basePath/app/layoutit/img/logo.png">
+<script type="text/javascript" src="$!basePath/app/layoutit/js/jquery.min.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/bootstrap.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/jquery.htmlClean.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/scripts.min.js"></script>
+<script type="text/javascript" src="$!basePath/framework/plugins/summernote/summernote.min.js"></script>
+<script type="text/javascript" src="$!basePath/framework/plugins/summernote/summernote-zh-CN.js"></script>
+<script type="text/javascript" src="$!basePath/app/layoutit/js/mod_codebeautify.js"></script>
+</head>
+<body class="edit">
+	<div class="navbar navbar-inverse navbar-fixed-top navbar-layoutit">
+    <div class="navbar-header">
+      <button data-target="navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+        <span class="glyphicon-bar"></span>
+        <span class="glyphicon-bar"></span>
+        <span class="glyphicon-bar"></span>
+      </button>
+      <a class="navbar-brand" style="height:20px;" href="$!basePath/open/layout"><b>可视化布局设计器</b></a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav" id="menu-layoutit">
+        <li>
+          <div class="btn-group" data-toggle="buttons-radio">
+            <button type="button" id="edit" class="active btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit "></i> 编辑</button>
+            <button type="button" class="btn btn-xs btn-primary" id="devpreview"><i class="glyphicon-eye-close glyphicon"></i> 布局编辑</button>
+            <button type="button" class="btn btn-xs btn-primary" id="sourcepreview"><i class="glyphicon-eye-open glyphicon"></i> 预览</button>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-xs btn-primary" id="button-download-modal" role="button" onclick="download()"><i class="glyphicon-chevron-down glyphicon"></i> 源码</button>
+            <button class="btn btn-xs btn-primary" href="#clear" id="clear" ><i class="glyphicon-trash glyphicon"></i> 清空</button>
+          </div>
+        </li>
+      </ul>
+      <ul class="nav pull-right">
+          <li>
+          <div class="btn-group">
+            <a class="btn btn-xs btn-primary" href="formdesign" id="clear" ><i class="glyphicon-list-alt glyphicon"></i> 表单设计</a>
+          </div>
+          </li>
+      </ul>
+    </div><!--/.navbar-collapse -->
+	</div><!--/.navbar-fixed-top -->
+	<div class="container">
+		<div class="row">
+			<div class="">
+				<div class="sidebar-nav">
+					<ul class="nav nav-list accordion-group">
+						<li class="nav-header">
+							<i class="glyphicon-plus glyphicon"></i>  布局设置
+							 <div class="pull-right popover-info"><i class="glyphicon glyphicon-question-sign"></i> 
+							 	<div class="popover fade right"><div class="arrow"></div> 
+							 	<h3 class="popover-title">提示：</h3> 
+							 	<div class="popover-content">在这里设置网站的布局, 包含多种排版形式，可任意组合多种不同的排版布局风格。 </div></div> 
+							 </div> 
+						</li>
+						<li class="rows" id="est1Rows">
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="12" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-12 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="6 6" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-6 column"></div>
+										<div class="col-md-6 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="9 3" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-9 column"></div>
+										<div class="col-md-3 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="8 4" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-8 column"></div>
+										<div class="col-md-4 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="4 4 4" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-4 column"></div>
+										<div class="col-md-4 column"></div>
+										<div class="col-md-4 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="3 9" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-sm-3 col-md-3 column"></div>
+										<div class="col-sm-9 col-md-9 column"></div>
+									</div>
+								</div>
+							</div>
+							<div class="lyrow">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview"><input type="text" value="2 6 4" class="form-control"></div>
+								<div class="view">
+									<div class="row clearfix">
+										<div class="col-md-2 column"></div>
+										<div class="col-md-6 column"></div>
+										<div class="col-md-4 column"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul class="nav nav-list accordion-group">
+					<li class="nav-header"><i class="glyphicon glyphicon-plus"></i> 基础组件
+					 <div class="pull-right popover-info"><i class="glyphicon glyphicon-question-sign "></i> 
+					 <div class="popover fade right"><div class="arrow"></div> 
+					 	<h3 class="popover-title">提示：</h3> 
+					 	<div class="popover-content">这里提供了一系列基本元素样式，你可以通过区块右上角的编辑按钮修改样式设置。</div></div> 
+					 </div>
+					</li>
+					<li class="boxes"  id="estRows">
+						<div class="box box-element">
+							<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="table-striped">条纹</a></li>
+										<li class="" ><a href="#" rel="table-bordered">边框</a></li>
+									</ul>
+								</span>
+								<a class="btn btn-xs btn-default" href="#" rel="table-hover">鼠标悬停</a>
+								<a class="btn btn-xs btn-default" href="#" rel="table-condensed">紧凑</a>
+							</span>
+							<div class="preview">表格</div>
+							<div class="view">
+								<table class="table" contenteditable="true">
+						    		<thead>
+								        <tr>
+								          <th>编号</th>
+								          <th>名称</th>
+								          <th>描述</th>
+								          <th>状态</th>
+								        </tr>
+						      		</thead>
+						      		<tbody>
+								      	<tr>
+								          <td>1</td>
+								          <td>TB - Monthly</td>
+								          <td>01/04/2012</td>
+								          <td>Default</td>
+								        </tr>
+								        <tr class="active">
+								          <td>1</td>
+								          <td>TB - Monthly</td>
+								          <td>01/04/2012</td>
+								          <td>Approved</td>
+								        </tr>
+								        <tr class="success">
+								          <td>2</td>
+								          <td>TB - Monthly</td>
+								          <td>02/04/2012</td>
+								          <td>Declined</td>
+								        </tr>
+								        <tr class="warning">
+								          <td>3</td>
+								          <td>TB - Monthly</td>
+								          <td>03/04/2012</td>
+								          <td>Pending</td>
+								        </tr>
+								        <tr class="danger">
+								          <td>4</td>
+								          <td>TB - Monthly</td>
+								          <td>04/04/2012</td>
+								          <td>Call in to confirm</td>
+								        </tr>
+					      			</tbody>
+						    	</table>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<span class="configuration">
+									<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								</span>
+							</span>
+							<div class="preview">分页条</div>
+							<div class="view">
+								<div class="row">
+                                	<div class="col-md-12">#Pager</div>
+                            	</div>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<span class="configuration">
+									<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								</span>
+							</span>
+							<div class="preview">分页条-异步</div>
+							<div class="view">
+								<div class="row">
+                                	<div class="col-md-12">#Pager_ajax</div>
+                            	</div>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="btn-default">默认</a></li>
+										<li class="" ><a href="#" rel="btn-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="btn-success">绿色</a></li>
+										<li class="" ><a href="#" rel="btn-info">青色</a></li>
+										<li class="" ><a href="#" rel="btn-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="btn-danger">红色</a></li>
+										<li class="" ><a href="#" rel="btn-link">链接</a></li>
+									</ul>
+								</span>
+								<span class="btn-group btn-group-xs">
+								<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">尺寸 <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li class="" ><a href="#" rel="btn-lg">大</a></li>
+									<li class="" ><a href="#" rel="btn-default">默认</a></li>
+									<li class="" ><a href="#" rel="btn-sm">小</a></li>
+									<li class="" ><a href="#" rel="btn-xs">微型</a></li>
+								</ul>
+							</span>
+							<a class="btn btn-xs btn-default" href="#" rel="btn-block">通栏</a>
+							<a class="btn btn-xs btn-default" href="#" rel="active">按下</a>
+							<a class="btn btn-xs btn-default" href="#" rel="disabled">禁用</a>
+							</span>
+							<div class="preview">按钮</div>
+							<div class="view">
+								<button type="button" class="btn btn-default" contenteditable="true">默认</button>		
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="btn-default">默认</a></li>
+										<li class="" ><a href="#" rel="btn-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="btn-success">绿色</a></li>
+										<li class="" ><a href="#" rel="btn-info">青色</a></li>
+										<li class="" ><a href="#" rel="btn-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="btn-danger">红色</a></li>
+										<li class="" ><a href="#" rel="btn-link">链接</a></li>
+									</ul>
+								</span>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">尺寸 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="btn-lg">大</a></li>
+										<li class="" ><a href="#" rel="btn-default">默认</a></li>
+										<li class="" ><a href="#" rel="btn-sm">小</a></li>
+										<li class="" ><a href="#" rel="btn-xs">微型</a></li>
+									</ul>
+								</span>
+								<a class="btn btn-xs btn-default" href="#" rel="btn-block">通栏</a>
+								<a class="btn btn-xs btn-default" href="#" rel="active">按下</a>
+								<a class="btn btn-xs btn-default" href="#" rel="disabled">禁用</a>
+							</span>
+							<div class="preview">文字按钮</div>
+							<div class="view">
+								<a href="#" class="btn" type="button" contenteditable="true">按钮</a>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<a class="btn btn-xs btn-default" href="#" rel="form-inline">嵌入</a>
+							</span>
+							<div class="preview">基本表单</div>
+							<div class="view">
+								<form role="form">
+								  <div class="form-group">
+								    <label for="exampleInputEmail1">邮箱：</label>
+								    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="请输入您的邮箱账号！">
+								  </div>
+								  <div class="form-group">
+								    <label for="exampleInputPassword1">密码：</label>
+								    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入您的密码！">
+								  </div>
+								  <div class="form-group">
+								    <label for="exampleInputFile">附件：</label>
+								    <input type="file" id="exampleInputFile">
+								    <p class="help-block">请上传您的附件！</p>
+								  </div>
+								  <div class="checkbox">
+								    <label>
+								      <input type="checkbox"> 同意请打勾
+								    </label>
+								  </div>
+								  <button type="submit" class="btn btn-default">提交</button>
+								</form>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">横向单列表单</div>
+							<div class="view">
+								<form class="form-horizontal" role="form">
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+											<div class="col-sm-10">
+											<input type="email" class="form-control" id="inputEmail3" placeholder="邮箱地址">
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" id="inputPassword3" placeholder="密码">
+												<p class="help-block no-m">提示文字.</p>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+		                      			<div class="form-group text-center">
+			                         		<label></label>
+		                                    <div>
+		                                        <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提   交</button>
+		                                    </div>
+		                                </div>
+		                      		</div>
+								</form>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">横向多列表单</div>
+							<div class="view">
+								<form class="form-horizontal" role="form">
+									<div class="row">
+										<div class="col-lg-6">
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+												<div class="col-sm-10">
+												<input type="email" class="form-control" id="inputEmail3" placeholder="邮箱地址">
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<div class="form-group">
+												<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+												<div class="col-sm-10">
+													<input type="password" class="form-control" id="inputPassword3" placeholder="密码">
+													<p class="help-block no-m">提示文字.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+												<div class="col-sm-10">
+												<input type="text" class="form-control" id="inputEmail3" placeholder="姓名">
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<div class="form-group">
+												<label for="inputPassword3" class="col-sm-2 control-label">描述</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" id="inputPassword3" placeholder="描述">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+		                      			<div class="form-group text-center">
+			                         		<label></label>
+		                                    <div>
+		                                        <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提   交</button>
+		                                    </div>
+		                                </div>
+		                      		</div>
+								</form>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">用户登录</div>
+							<div class="view">
+								<form class="form-horizontal" role="form">
+								  <div class="form-group">
+								    <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
+								    <div class="col-sm-10">
+								      <input type="email" class="form-control" id="inputEmail3" placeholder="请输入您的邮箱账号！">
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <label for="inputPassword3" class="col-sm-2 control-label">密码：</label>
+								    <div class="col-sm-10">
+								      <input type="password" class="form-control" id="inputPassword3" placeholder="请输入您的密码！">
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <div class="col-sm-offset-2 col-sm-10">
+								      <div class="checkbox">
+								        <label>
+								          <input type="checkbox"> 记住我
+								        </label>
+								      </div>
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <div class="col-sm-offset-2 col-sm-10">
+								      <button type="submit" class="btn btn-default">登录</button>
+								    </div>
+								  </div>
+								</form>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">对齐 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="text-left">左对齐</a></li>
+										<li class="" ><a href="#" rel="text-center">居中</a></li>
+										<li class="" ><a href="#" rel="text-right">右对齐</a></li>
+									</ul>
+								</span>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">强调样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="text-muted">灰色</a></li>
+										<li class="" ><a href="#" rel="text-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="text-success">绿色</a></li>
+										<li class="" ><a href="#" rel="text-info">青色</a></li>
+										<li class="" ><a href="#" rel="text-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="text-danger">红色</a></li>
+									</ul>
+								</span>
+							</span>
+							<div class="preview">标题</div>
+							<div class="view">
+								<h3 contenteditable="true">这是一个标题</h3>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">对齐 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="text-left">左对齐</a></li>
+										<li class="" ><a href="#" rel="text-center">居中</a></li>
+										<li class="" ><a href="#" rel="text-right">右对齐</a></li>
+									</ul>
+								</span>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">强调样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="text-muted">灰色</a></li>
+										<li class="" ><a href="#" rel="text-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="text-success">绿色</a></li>
+										<li class="" ><a href="#" rel="text-info">青色</a></li>
+										<li class="" ><a href="#" rel="text-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="text-danger">红色</a></li>
+									</ul>
+								</span>
+								<a class="btn btn-xs btn-default" href="#" rel="lead">加大</a>
+							</span>
+							<div class="preview">段落</div>
+							<div class="view">
+								<p contenteditable="true">这里是一个段落</p>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">地址</div>
+							<div class="view">
+								<address contenteditable="true">
+									<strong>XXX公司</strong><br>
+									地址：<br>
+									邮编：000000
+								</address>
+							</div>
+						</div>
+							<div class="box box-element">
+							  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<span class="configuration">
+									<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>	  
+									<a class="btn btn-xs btn-default" href="#" rel="pull-right">右对齐</a>
+								</span>
+								<div class="preview">引用块</div>
+								<div class="view clearfix">
+							    <blockquote contenteditable="true">
+									<p>这里是一个引用块的内容</p>
+									<small>可以设置右对齐</small>
+							    </blockquote>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>	  
+								<a class="btn btn-xs btn-default" href="#" rel="list-unstyled">无样式</a>
+								<a class="btn btn-xs btn-default" href="#" rel="list-inline">嵌入</a>
+							</span>
+							<div class="preview">无序列表</div>
+							<div class="view">
+								<ul contenteditable="true">
+					              <li>标题一</li>
+					              <li>标题二</li>
+					              <li>标题三</li>
+					              <li>标题四</li>
+					              <li>标题五</li>
+					            </ul>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>	  
+								<a class="btn btn-xs btn-default" href="#" rel="list-unstyled">无样式</a>
+								<a class="btn btn-xs btn-default" href="#" rel="list-inline">嵌入</a>
+							</span>
+							<div class="preview">有序列表</div>
+							<div class="view">
+								<ol contenteditable="true">
+					              <li>标题一</li>
+					              <li>标题二</li>
+					              <li>标题三</li>
+					              <li>标题四</li>
+					              <li>标题五</li>
+					            </ol>
+							</div>
+						</div>
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>	  
+								<a class="btn btn-xs btn-default" href="#" rel="dl-horizontal">竖向对齐</a>
+							</span>
+							<div class="preview">详细描述</div>
+							<div class="view">
+								<dl contenteditable="true">
+									<dt>名称：</dt>
+									<dd></dd>
+									<dt>型号：</dt>
+									<dd>Xs-201</dd>
+									<dt>尺寸：</dt>
+									<dd>210x451x50</dd>
+									<dt>说明：</dt>
+									<dd>这里是说明内容啦！</dd>
+								</dl>
+							</div>
+						</div>
+						<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+												<li class="active" ><a href="#" rel="">默认</a></li>
+												<li class="" ><a href="#" rel="img-rounded">圆角</a></li>
+												<li class="" ><a href="#" rel="img-circle">圆圈</a></li>
+												<li class="" ><a href="#" rel="img-thumbnail">相框</a></li>
+											</ul>
+								</span>
+							</span>
+							<div class="preview">图片</div>
+							<div class="view">
+								<img alt="140x140" src="$!basePath/app/layoutit/img/140.jpg">
+							</div>
+						</div>
+					</li>
+					</ul>
+					<ul class="nav nav-list accordion-group">
+						<li class="nav-header"><i class="glyphicon glyphicon-plus"></i> 常用组件 <div class="pull-right popover-info"><i class="glyphicon glyphicon-question-sign "></i> 
+						 <div class="popover fade right"><div class="arrow"></div> 
+						 	<h3 class="popover-title">提示：</h3> 
+						 	<div class="popover-content">拖放组件到布局框内，拖入后你可以设置组件样式。</div></div> 
+						 </div>
+						</li>
+						<li class="boxes" id="elmComponents">
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+						  <span class="configuration">
+						  	<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">尺寸 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="btn-group-lg">大</a></li>
+										<li class="" ><a href="#" rel="btn-group-md">中</a></li>
+										<li class="" ><a href="#" rel="btn-group-sm">小</a></li>
+										<li class="" ><a href="#" rel="btn-group-xs">微型</a></li>
+									</ul>
+						</span>
+						    <a class="btn btn-xs btn-default" href="#" rel="btn-group-vertical">垂直</a>
+						  </span>
+							<div class="preview">按钮组</div>
+							<div class="view">
+								<div class="btn-group">
+						      <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-align-left"></i> 1</button>
+						      <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-align-center"></i> 2</button>
+						      <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-align-right"></i> 3</button>
+						      <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-align-justify"></i> 4</button>
+						    </div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<a class="btn btn-xs btn-default" href="#" rel="dropup">上拉</a>
+								<a class="btn btn-xs btn-default" href="#" rel="dropdown-menu-right">右对齐</a>
+							</span>
+							<div class="preview">下拉菜单</div>
+							<div class="view">
+								<div class="btn-group">
+									<button class="btn btn-default" contenteditable="true">动作</button>
+									<button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+									<ul class="dropdown-menu" contenteditable="true">
+										<li><a href="#">操作</a></li>
+										<li class="disabled"><a href="#">禁止操作</a></li>
+										<li class="divider"></li>
+										<li><a href="#">更多设置</a></li>				
+									</ul>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="nav-tabs">默认</a></li>
+										<li class="" ><a href="#" rel="nav-pills">图钉</a></li>
+									</ul>
+						</span>
+								<a class="btn btn-xs btn-default" href="#" rel="nav-stacked">切换格式</a>
+							</span>
+							<div class="preview">导航</div>
+							<div class="view">
+						    <ul class="nav nav-tabs" contenteditable="true">
+						      <li class="active"><a href="#">首页</a></li>
+						      <li><a href="#">资料</a></li>
+						      <li class="disabled"><a href="#">消息</a></li>
+						      <li class="dropdown pull-right">
+						        <a href="#" data-toggle="dropdown" class="dropdown-toggle">下拉菜单 <b class="caret"></b></a>
+						        <ul class="dropdown-menu">
+						          <li><a href="#">列表一</a></li>
+						          <li><a href="#">列表二</a></li>
+						          <li><a href="#">列表三</a></li>
+						          <li class="divider"></li>
+						          <li><a href="#">更多列表</a></li>
+						        </ul>
+						      </li>
+						    </ul>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">面包屑导航</div>
+							<div class="view">
+						
+						    <ul class="breadcrumb">
+								  <li><a href="#" contenteditable="true">首页</a></li>
+								  <li><a href="#" contenteditable="true">关于我们</a></li>
+								  <li class="active" contenteditable="true">公司简介</li>
+						    </ul>
+						
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">尺寸 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="pagination-lg">大</a></li>
+										<li class="active" ><a href="#" rel="">中</a></li>
+										<li class="" ><a href="#" rel="pagination-sm">小</a></li>
+									</ul>
+						</span>
+						
+									</span>
+							<div class="preview">分页</div>
+							<div class="view">
+									<ul class="pagination" contenteditable="true">
+										<li><a href="#">上一页</a></li>
+										<li><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><a href="#">5</a></li>
+										<li><a href="#">下一页</a></li>
+									</ul>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="label-default">默认</a></li>
+										<li class="" ><a href="#" rel="label-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="label-success">绿色</a></li>
+										<li class="" ><a href="#" rel="label-info">青色</a></li>
+										<li class="" ><a href="#" rel="label-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="label-danger">红色</a></li>
+									</ul>
+						</span>
+							</span>
+							<div class="preview">文字标签</div>
+							<div class="view">
+								<span class="label label-default" contenteditable="true">文字标签</span>
+								<span class="label label-primary" contenteditable="true">文字标签</span>
+								<span class="label label-success" contenteditable="true">文字标签</span>
+								<span class="label label-info" contenteditable="true">文字标签</span>
+								<span class="label label-warning" contenteditable="true">文字标签</span>
+								<span class="label label-danger" contenteditable="true">文字标签</span>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">微标</div>
+							<div class="view">
+						    <ul class="nav nav-pills" contenteditable="true">
+						      <li class="active">
+						        <a href="#">
+						          <span class="badge pull-right">42</span>
+						          新信息
+						        </a>
+						      </li>
+						      <li>
+						        <a href="#">
+						          <span class="badge pull-right">16</span>
+						          新信息
+						        </a>
+						      </li>
+						    </ul>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<a class="btn btn-xs btn-default" href="#" rel="well">嵌入</a>
+							</span>
+							<div class="preview">概述</div>
+							<div class="view">
+								<div class="jumbotron" contenteditable="true">
+									<h2>概述标题</h2>
+									<p>这是简短的概述内容，这是简短的概述内容，这是简短的概述内容，这是简短的概述内容，这是简短的概述内容，</p>
+									<p><a class="btn btn-primary btn-large" href="#">查看更多 &raquo;</a></p>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">页标题</div>
+							<div class="view">
+								<div class="page-header">
+						    	<h1 contenteditable="true">页标题范例 <small>此处编写页标题</small></h1>
+						    </div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">文本</div>
+							<div class="view">
+								<h2 contenteditable="true">标题</h2>
+								<p contenteditable="true">是的，这部分就是内容啦！</p>
+								<p><a class="btn" href="#" contenteditable="true">查看更多 &raquo;</a></p>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">预览列表</div>
+							<div class="view">
+												<div class="row">
+						              <div class="col-md-4">
+						                <div class="thumbnail">
+						                  <img alt="300x200" src="$!basePath/app/layoutit/img/people.jpg">
+						                  <div class="caption" contenteditable="true">
+						                    <h3>标题一</h3>
+						                    <p>是的，这部分就是内容啦！</p>
+						                    <p><a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">更多 &raquo;</a></p>
+						                  </div>
+						                </div>
+						              </div>
+						              <div class="col-md-4">
+						                <div class="thumbnail">
+						                  <img alt="300x200" src="$!basePath/app/layoutit/img/city.jpg">
+						                  <div class="caption" contenteditable="true">
+						                    <h3>标题二</h3>
+						                    <p>对的，这部分就是内容啦！</p>
+						                    <p><a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">更多 &raquo;</a></p>
+						                  </div>
+						                </div>
+						              </div>
+						              <div class="col-md-4">
+						                <div class="thumbnail">
+						                  <img alt="300x200" src="$!basePath/app/layoutit/img/sports.jpg">
+						                  <div class="caption" contenteditable="true">
+						                    <h3>标题三</h3>
+						                    <p>没错，这部分就是内容啦！</p>
+						                    <p><a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">更多 &raquo;</a></p>
+						                  </div>
+						                </div>
+						              </div>
+						            </div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<a class="btn btn-xs btn-default" href="#" rel="progress-striped">条纹</a>
+								<a class="btn btn-xs btn-default" href="#" rel="active">动画</a>
+							</span>
+							<div class="preview">进度条</div>
+							<div class="view">
+								<div class="progress">
+									<div class="progress-bar progress-success" style="width: 60%;"></div>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<a class="btn btn-xs btn-default" href="#" rel="well">嵌入</a>
+							</span>
+							<div class="preview">媒体对象</div>
+							<div class="view">
+								<div class="media">
+						      <a href="#" class="pull-left">
+						        <img src="$!basePath/app/layoutit/img/64.jpg" class="media-object">
+						      </a>
+						      <div class="media-body" contenteditable="true">
+						        <h4 class="media-heading">新标题</h4>
+						        这里是简介内容区域！
+						        <div class="media">
+						          <a href="#" class="pull-left">
+						            <img src="$!basePath/app/layoutit/img/64.jpg" class="media-object">
+						          </a>
+						          <div class="media-body" contenteditable="true">
+						            <h4 class="media-heading">新标题</h4>
+						            这里是简介内容区域！
+						          </div>
+						        </div>
+						      </div>
+						    </div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">列表组</div>
+							<div class="view">
+								<div class="list-group" contenteditable="true">
+									<a href="#" class="list-group-item active">首页</a>
+						      <div class="list-group-item">列表头部</div>
+									<div class="list-group-item">
+						        <h4 class="list-group-item-heading">列表内容</h4>
+						        <p class="list-group-item-text">...</p>
+						      </div>
+									<div class="list-group-item"><span class="badge">14</span>产品展示</div>
+									<a class="list-group-item active"><span class="badge">14</span>案例展示</a>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="panel-default">默认</a></li>
+										<li class="" ><a href="#" rel="panel-primary">蓝色</a></li>
+										<li class="" ><a href="#" rel="panel-success">绿色</a></li>
+										<li class="" ><a href="#" rel="panel-info">青色</a></li>
+										<li class="" ><a href="#" rel="panel-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="panel-danger">红色</a></li>
+									</ul>
+						</span>
+						              
+							</span>
+							<div class="preview">面版</div>
+							<div class="view">
+								<div class="panel panel-default">
+						      <div class="panel-heading">
+						        <h3 class="panel-title" contenteditable="true">面版标题</h3>
+						      </div>
+						      <div class="panel-body" contenteditable="true">
+						        面版内容
+						      </div>
+						      <div class="panel-footer" contenteditable="true">
+						        面版底部
+						      </div>
+						    </div>
+							</div>
+						</div>
+						</li>
+					</ul>
+					<ul class="nav nav-list accordion-group">
+						<li class="nav-header"><i class="glyphicon glyphicon-plus"></i> 交互组件
+						 <div class="pull-right popover-info"><i class="glyphicon glyphicon-question-sign "></i> 
+						 <div class="popover fade right"><div class="arrow"></div> 
+						 	<h3 class="popover-title">提示：</h3> 
+						 	<div class="popover-content">拖放组件到布局容器，拖入后您可以配置显示样式。</div></div> 
+						 </div>
+						</li>
+						<li class="boxes mute" id="elmJS">
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">遮蔽窗体</div>
+							<div class="view">
+								<!-- Button to trigger modal -->
+										<a id="myModalLink" href="#myModalContainer" role="button" class="btn" data-toggle="modal">触发弹窗</a>
+								 
+						<!-- Modal -->
+						<div class="modal fade" id="myModalContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						        <h4 class="modal-title" id="myModalLabel" contenteditable="true">标题</h4>
+						      </div>
+						      <div class="modal-body" contenteditable="true">
+						        这里是弹窗的内容
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal" contenteditable="true">关闭</button>
+						        <button type="button" class="btn btn-primary" contenteditable="true">保存</button>
+						      </div>
+						    </div><!-- /.modal-content -->
+						  </div><!-- /.modal-dialog -->
+						</div><!-- /.modal -->
+						
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+						  <span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">定位 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="active" ><a href="#" rel="">默认</a></li>
+										<li class="" ><a href="#" rel="navbar-static-top">相对顶部</a></li>
+										<li class="" ><a href="#" rel="navbar-fixed-top">固定顶部</a></li>
+										<li class="" ><a href="#" rel="navbar-fixed-bottom">固定底部</a></li>
+									</ul>
+						</span>
+								<a class="btn btn-xs btn-default" href="#" rel="navbar-inverse">反向</a>
+								<!--a class="btn btn-xs btn-default" href="#" rel="navbar-static-top">Static top</a>
+								<a class="btn btn-mini" href="#" rel="navbar-fixed-top">Navbar fixed top</a>
+								<a class="btn btn-mini" href="#" rel="navbar-fixed-bottom">Navbar fixed bottom</a-->
+							</span>
+							<div class="preview">导航栏</div>
+							<div class="view">
+						
+						<nav class="navbar navbar-default" role="navigation">
+						  <!-- Brand and toggle get grouped for better mobile display -->
+						  <div class="navbar-header">
+						    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						      <span class="sr-only">切换导航</span>
+						      <span class="icon-bar"></span>
+						      <span class="icon-bar"></span>
+						      <span class="icon-bar"></span>
+						    </button>
+						    <a class="navbar-brand" href="#">导航</a>
+						  </div>
+						
+						  <!-- Collect the nav links, forms, and other content for toggling -->
+						  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						    <ul class="nav navbar-nav">
+						      <li class="active"><a href="#">链接</a></li>
+						      <li><a href="#">链接</a></li>
+						      <li class="dropdown">
+						        <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉菜单 <b class="caret"></b></a>
+						        <ul class="dropdown-menu">
+						          <li><a href="#">列表一</a></li>
+						          <li><a href="#">列表二</a></li>
+						          <li><a href="#">列表三</a></li>
+						          <li class="divider"></li>
+						          <li><a href="#">更多列表</a></li>
+						          <li class="divider"></li>
+						          <li><a href="#">更多列表</a></li>
+						        </ul>
+						      </li>
+						    </ul>
+						    <form class="navbar-form navbar-left" role="search">
+						      <div class="form-group">
+						        <input type="text" class="form-control" placeholder="请输入搜索内容">
+						      </div>
+						      <button type="submit" class="btn btn-default">搜索</button>
+						    </form>
+						    <ul class="nav navbar-nav navbar-right">
+						      <li><a href="#">链接</a></li>
+						      <li class="dropdown">
+						        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 下拉菜单 <b class="caret"></b></a>
+						        <ul class="dropdown-menu">
+						          <li><a href="#">列表一</a></li>
+						          <li><a href="#">列表二</a></li>
+						          <li><a href="#">列表三</a></li>
+						          <li class="divider"></li>
+						          <li><a href="#">更多列表</a></li>
+						          <li class="divider"></li>
+						          <li><a href="#">更多列表</a></li>
+						        </ul>
+						      </li>
+						    </ul>
+						  </div><!-- /.navbar-collapse -->
+						</nav>
+						
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+							<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+							</span>
+							<div class="preview">选项卡</div>
+							<div class="view">
+								<div class="tabbable" id="myTabs"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#tab1" data-toggle="tab" contenteditable="true">选项卡一</a></li>
+										<li><a href="#tab2" data-toggle="tab" contenteditable="true">选项卡二</a></li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="tab1">
+											<p contenteditable="true">选项卡一内容</p>
+										</div>
+										<div class="tab-pane" id="tab2">
+											<p contenteditable="true">选项卡二内容</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<span class="configuration">
+								<button type="button" class="btn btn-xs btn-default" data-target="#editorModal" role="button" data-toggle="modal">编辑</button>
+								<span class="btn-group btn-group-xs">
+							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">样式 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<li class="" ><a href="#" rel="alert-success">绿色</a></li>
+										<li class="" ><a href="#" rel="alert-info">青色</a></li>
+										<li class="" ><a href="#" rel="alert-warning">橙色</a></li>
+										<li class="" ><a href="#" rel="alert-danger">红色</a></li>
+									</ul>
+						</span>
+							</span>
+							<div class="preview">提示框</div>
+							<div class="view">
+								<div class="alert alert-success alert-dismissable" contenteditable="true">
+						      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<h4>提示！</h4>
+									<strong>提示！</strong> 这里是提示的内容<a href="#" class="alert-link">查看</a>
+								</div>
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">手风琴切换</div>
+							<div class="view">
+								<div class="panel-group" id="myAccordion">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+										  <a class="panel-title" data-toggle="collapse" data-parent="#myAccordion" href="#collapseOne" contenteditable="true">
+										    选项卡一
+										  </a>
+										</div>
+										<div id="collapseOne" class="panel-collapse collapse in">
+										  <div class="panel-body" contenteditable="true">
+										    选项卡一的内容...
+										  </div>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+										  <a class="panel-title" data-toggle="collapse" data-parent="#myAccordion" href="#collapseTwo" contenteditable="true">
+										    选项卡二
+										  </a>
+										</div>
+										<div id="collapseTwo" class="panel-collapse collapse">
+										  <div class="panel-body" contenteditable="true">
+										    选项卡二的内容...
+										  </div>
+										</div>
+									</div>
+								</div>
+						
+							</div>
+						</div>
+							<div class="box box-element">
+						  	<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+							<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+							<div class="preview">轮播图</div>
+							<div class="view">
+								
+								
+						<div class="carousel slide" id="myCarousel">
+						  <ol class="carousel-indicators">
+						    <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
+						    <li data-slide-to="1" data-target="#myCarousel" class=""></li>
+						    <li data-slide-to="2" data-target="#myCarousel" class=""></li>
+						  </ol>
+						  <div class="carousel-inner">
+						    <div class="item active">
+						      <img alt="" src="$!basePath/app/layoutit/img/1.jpg">
+						      <div class="carousel-caption">
+						        <h4>焦点图一</h4>
+						        <p>焦点图一的描述,焦点图一的描述,焦点图一的描述,焦点图一的描述,焦点图一的描述,</p>
+						      </div>
+						    </div>
+						    <div class="item">
+						      <img alt="" src="$!basePath/app/layoutit/img/2.jpg">
+						      <div class="carousel-caption">
+						        <h4>焦点图二</h4>
+						        <p>焦点图二的描述,焦点图二的描述,焦点图二的描述,焦点图二的描述,焦点图二的描述,焦点图二的描述,</p>
+						      </div>
+						    </div>
+						    <div class="item">
+						      <img alt="" src="$!basePath/app/layoutit/img/3.jpg">
+						      <div class="carousel-caption">
+						        <h4>焦点图三</h4>
+						        <p>焦点图三的描述，焦点图三的描述，焦点图三的描述，焦点图三的描述，焦点图三的描述，</p>
+						      </div>
+						    </div>
+						  </div>
+						
+						  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+						    <span class="glyphicon glyphicon-chevron-left"></span>
+						  </a>
+						  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+						    <span class="glyphicon glyphicon-chevron-right"></span>
+						  </a>
+						</div>		
+							</div>
+						</div>
+						</li>
+						</ul>
+					<ul class="nav nav-list accordion-group">
+						<li class="nav-header"><i class="glyphicon glyphicon-plus"></i> 网站建设相关
+							<div class="pull-right popover-info"><i class="glyphicon glyphicon-question-sign "></i> 
+								<div class="popover fade right"><div class="arrow"></div> 
+								<h3 class="popover-title">提示：</h3> 
+								<div class="popover-content">这里提供了一系列网站建设相关元素，包含的各类功能组件，可任意组合搭配出您喜欢的网站排版形式。</div></div> 
+							</div>
+						</li>
+						<li class="boxes" id="elmBase">
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">网站顶部</div>
+								<div class="view">
+									<!-- 网站顶部 start -->
+									<div id="top">
+										<div id="topBar">
+											<div class="userPanel">
+												<ul>
+													<li><a href="#">手机版</a></li>
+													<li><a href="#">设为首页</a></li>
+													<li><a href="#">加入收藏</a></li>
+													<li><a href="#">联系我们</a></li>
+												</ul>
+											</div>
+											<div class="welcome">网禾物业管理系统</div>
+										</div>
+										<!-- topBar end -->
+									</div>
+									<!-- 网站顶部 end -->
+								</div>
+							</div>
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">网站Logo</div>
+								<div class="view">
+									<!-- 网站LOGO start -->
+									<div id="header">
+										<div class="topAD">NSPMS</div>
+										<div class="logo">网禾物业管理系统</div>
+									</div>
+									<!-- 网站LOGO end -->
+								</div>
+							</div>
+							<div class="box box-element">
+									<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+									<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">侧栏导航菜单</div>
+								<div class="view">
+									<!-- 侧栏导航菜单 start -->
+									<div class="sideBox" id="sideMenu">
+										<div class="hd">
+											<h3><span>关于我们</span></h3>
+										</div>
+										<div class="bd">
+											<ul class="menuList">
+												<li><a href="#">公司简介</a></li>
+												<li><a href="#">企业文化</a></li>
+												<li><a href="#">组织结构</a></li>
+												<li><a href="#">资质认证</a></li>
+												<li><a href="#">联系我们</a></li>
+											</ul>
+										</div>
+									</div>
+									<!-- 侧栏导航菜单 end -->
+								</div>
+							</div>
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">通用文章列表</div>
+								<div class="view">
+									<!-- 通用文章列表 start -->
+										<ul class="infoList">
+											<li>
+												<span class="date">日期</span>
+												<a href="#">列表</a>
+											</li>
+											<li>
+												<span class="date">日期</span>
+												<a href="#">列表</a>
+											</li>
+											<li>
+												<span class="date">日期</span>
+												<a href="#">列表</a>
+											</li>
+										</ul>
+									<!-- 通用信息列表 end -->
+								</div>
+							</div>
+							<div class="box box-element">
+									<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+									<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">文章子列表页</div>
+								<div class="view">
+									<!-- 文章子列表页 start -->
+									<div class="box" id="mainBox">
+										<div class="mHd">
+											<div class="path"><em>您现在位置：</em><a href="index.html" class="home">首页</a>&gt;<a target="_self" href="#">关于我们</a>&gt;<a target="_self" href="#">公司简介</a></div>
+											<h3><span>公司简介</span></h3>
+										</div>
+										<div class="mBd">
+											<ul class="newsList">
+												<li>
+													<span class="date">日期</span>
+													<a href="#">列表</a>
+												</li>
+												<li>
+													<span class="date">日期</span>
+													<a href="#">列表</a>
+												</li>
+												<li>
+													<span class="date">日期</span>
+													<a href="#">列表</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- 文章子列表页 end -->
+								</div>
+							</div>
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">文章内容页</div>
+								<div class="view">
+									<!-- 文章内容页 start -->
+									<div class="articleContent">
+										<h2 class="title">文章标题</h2>
+										<div class="property">
+											<span>文章来源：</span>
+											<span>作者：</span>
+											<span>发布时间：</span>
+											<span>点击数：0</span>
+											<span>【字号：<a class="fontZoomA" href="javascript:fontZoomA();">小</a><a class="fontZoomB" href="javascript:fontZoomB();">大</a>】</span>
+										</div>
+										<div id="contentTxt">
+											<p>    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容</p>
+										</div>
+									</div>
+									<!-- 文章内容页 end -->
+								</div>
+							</div>
+							<div class="box box-element">
+								<a href="#close" class="remove label label-danger"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+								<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+								<div class="preview">网站底部</div>
+								<div class="view">
+									<!-- 网站底部 start -->
+									<div id="footer">
+										<div class="footerNav">
+											<a href="#">关于我们</a> |
+											<a href="#">服务条款</a> |
+											<a href="#">免责声明</a> |
+											<a href="#">网站地图</a> |
+											<a href="#">联系我们</a>
+										</div>
+										<div class="copyRight">Copyright ©2014 版权所有</div>
+									</div>
+									<!-- 网站底部 end -->
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul class="nav nav-list accordion-group hide">
+						<li class="nav-header"><i class="glyphicon glyphicon-plus"></i> 应用扩展</li>
+						<li class="boxes mute" id="elmComm">
+							<div class="preview">建设中...</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--内容区域 开始-->
+			<div class="demo ui-sortable"><div class="lyrow ui-draggable">
+				<a href="#close" class="remove label label-danger"><i class="glyphicon-remove glyphicon"></i> 删除</a>
+				<span class="drag label label-default"><i class="glyphicon glyphicon-move"></i> 拖动</span>
+				<div class="preview"><input type="text" value="12" class="form-control"></div>
+				<div class="view">
+					<div class="row clearfix">
+						<div class="col-md-12 column ui-sortable"></div>
+					</div>
+				</div>
+			</div></div>
+			<!--内容区域 结束-->
+			<div id="download-layout">
+				<!-- 可编辑内容区域 开始 -->
+				<div class="wrapper"></div>
+				<!-- 可编辑内容区域 结束 -->
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" role="dialog" aria-hidden="true" id="editorModal">
+		<div class="modal-dialog" style="width:1000px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">编辑</h4>
+				</div>
+				<div class="modal-body">
+					<textarea></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="savecontent"  data-dismiss="modal">保存</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="downloadModal" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
+		<textarea></textarea>
+	</div>
+	<script type="text/javascript">
+		function download(){
+			downloadLayoutSrc();
+			$.ajax({  
+				type: "POST",  
+				url: "$!basePath/open/dev/layout/download",  
+				data: {"html":html_beautify($("#downloadModal textarea").val()) },  
+				success: function(data) {
+					$("#downloadModal").html(data);
+					data = $("#downloadModal textarea").val();
+					$("#downloadModal textarea").val(html_beautify(data));
+					$("#downloadModal").modal("show");
+				}
+			});
+		}
+		$(function(){
+			var currenteditor;
+			//初始化编辑器
+			$("#editorModal textarea").summernote({
+				height:'200px',
+				lang:'zh-CN'
+			});
+			$('body.edit .demo').on("click","[data-target=#editorModal]",function(e) {
+				e.preventDefault();
+				currenteditor = $(this).parent().parent().find('.view');
+				var eText = currenteditor.html();
+				eText = html_beautify(eText);
+				$("#editorModal textarea").code(eText);
+			});
+			$("#savecontent").click(function(e) {
+				e.preventDefault();
+				currenteditor.html($("#editorModal textarea").code());
+			});
+		});
+		$(document).on('hidden.bs.modal', function (e) {
+		    $(e.target).removeData('bs.modal');
+		});
+	</script>
+</body>
+</html>

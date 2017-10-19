@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<title>#title</title>
+	#required_css
+</head>
+<body>
+#loading
+<div class="app ${layout}">
+	<section class="layout">
+		<!-- 内容主体 -->
+		<section class="main-content">
+			<div class="content-wrap">
+				<div class="wrapper">
+					<form id="alumniVersionForm" role="form" class="form-horizontal parsley-form"
+						  data-parsley-validate action="$!basePath/open/alumni/version/update/ios" method="post">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="col-sm-1 control-label">版本号:</label>
+									<div class="col-sm-10">
+										<input class="form-control" name="version" placeholder="版本号"
+											   value="$!version" data-parsley-required="true">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="col-lg-12">
+							<div class="form-group text-center">
+								<div>
+									<button class="btn btn-primary btn-block btn-lg btn-parsley"
+											data-loading-text="正在提交...">提 交
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<a class="exit-offscreen"></a>
+		</section>
+	</section>
+</div>
+#required_js
+<!-- 页面组件脚本 -->
+
+<!-- 本页面脚本 -->
+<script src="$!basePath/framework/js/form/form.js"></script>
+<script src="$!basePath/framework/js/view/toast.js"></script>
+<script src="$!basePath/framework/js/form/validator.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$("#alumniVersionForm").ajaxForm({
+			beforeSubmit:function(arr, $form, options){
+				//表单特殊验证
+				$form.find("button:submit").button("loading");
+			},
+			success : function(data, statusText, xhr, $form) {
+				if(data.success == true){
+					//修改成功
+					ns.tip.toast.success("修改成功！");
+				}else{
+					ns.tip.toast.error(data.error);
+				}
+				$form.find("button:submit").button("reset");
+			}
+		});
+	});
+
+</script>
+#loading_close
+</body>
+</html>

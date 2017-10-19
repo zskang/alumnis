@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link href="http://alumni.ustb.edu.cn/client/styles/default/css/layout.css" rel="stylesheet" type="text/css" />
+	<link href="http://alumni.ustb.edu.cn/client/styles/default/css/popwin.css" rel="stylesheet" type="text/css" />
+    <title>新闻详情页</title>
+	<style>
+		body{
+			margin-top: 10px;
+			background: #fff;
+		}
+		#article h2 {
+			border-bottom: none;
+			height:auto;
+		}
+		#article .body {
+			border: none;
+		}
+		.wenzhang p{padding-top:3%;text-indent:0rem;}
+		.wenzhang p{ width:100%; padding-bottom:2%;}
+		.wenzhang p img { width:100%; height: auto;}
+	</style>
+</head>
+<body>
+	<div class="wenzhang">
+		$!content
+	</div>
+	<script>
+		function getHeight(){
+			return document.getElementsByClassName("wenzhang")[0].scrollHeight;
+		}
+	</script>
+</body>
+</html>

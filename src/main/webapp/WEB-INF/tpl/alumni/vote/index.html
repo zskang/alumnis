@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh_CN">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>#title</title>
+    #required_css
+</head>
+<body>
+	#loading
+	<!-- 风格切换 --> 
+    #stylepage
+    <div class="app ${layout}"> 
+        <!-- 头部菜单 -->
+        #header
+        <section class="layout">
+            <!-- 菜单 -->
+            #sidebar
+            <!-- 内容主体 -->
+            <section class="main-content">
+            	<!-- 主体操作栏 -->
+            	<header class="header navbar bb">
+            		<!-- 左按钮区 -->
+                    <div class="btn-group tool-button">
+						<a class="btn btn-primary navbar-btn" href="$!basePath/alumni/news/$!type"><i class="ti-angle-left"></i> 返回</a>
+                    </div>
+                    <div class="pull-right offscreen-right">
+						<button class="btn btn-primary navbar-btn" onclick="ns.view.toggleFilter('.cd-panel')"><i class="fa fa-sliders"></i> 筛选</button>
+                    </div>
+                </header>
+                <div class="content-wrap">
+                   	<div class="wrapper">
+                   		<form id="alumniVoteForm" action="$!basePath/alumni/news/$!type/vote/$!newsId" method="post">
+	                        <div class="row">
+	                        	<div class="col-lg-12 table-responsive">
+									<table id="alumniVoteTable" class="table no-m">
+										<thead>
+										<tr>
+											<th class="col-md-1">姓名</th>
+											<th class="col-md-2">选项</th>
+											<th class="col-md-2">时间</th>
+										</tr>
+										</thead>
+										<tbody>
+										#foreach($obj in $list)
+										<tr>
+											<td>$!obj.student.name</td>
+											<td>$!obj.option</td>
+											<td>$!obj.createTime</td>
+										</tr>
+										#end
+										</tbody>
+									</table>
+	                            </div>
+	                        </div>
+	                        <div class="row">
+	                        	<div class="col-lg-12">
+	                        	#pager_ajax
+	                        	</div>
+	                    	</div>
+                    	</form>
+                	</div>
+                </div>
+                <a class="exit-offscreen"></a>
+            </section>
+        </section>
+    </div>
+
+	<div class="cd-panel from-right">
+		<div class="cd-panel-container shadow">
+			<header class="cd-panel-header">
+				<h4>筛选</h4>
+				<a href="javascript:$('.cd-panel').click();" class="cd-panel-close text-center"><i class="ti-close"></i>
+				</a>
+			</header>
+			<div class="cd-panel-content">
+				<form role="form" id="myFindForm" onsubmit="return doSearch(this);">
+					<div class="form-group">
+						<label>日期:</label>
+						<input type="text" class="form-control datepicker" name="date" placeholder="日期"  readonly>
+					</div>
+					<div class="form-group">
+						<label>姓名:</label>
+						<input name="name" type="text" class="form-control" placeholder="姓名" autofocus>
+					</div>
+					<div class="form-group">
+						<div class="col-md-offset-5">
+							<button type="submit" class="btn btn-default">查询</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	#required_js
+    <!-- 页面组件脚本 -->
+    
+    <!-- 本页面脚本 -->
+    <script src="$!basePath/framework/js/view/toast.js"></script>
+	<script src="$!basePath/framework/js/form/date.js"></script>
+    <script type="text/javascript">
+		function doSearch(form){
+			var attr = ns.formAttrs($(form));
+			ns.asyncRequest("$!basePath/alumni/news/$!type/vote/$!newsId", attr, "#alumniVoteForm");
+			return false;
+		}
+    </script>
+	#loading_close
+</body>
+</html>

@@ -1,0 +1,225 @@
+<div class="modal-body no-p">
+	<div class="row">
+		<div class="col-xs-12">
+			<section class="panel panel-primary no-b">
+	            <header class="panel-heading clearfix brtl brtr">
+	                <div class="overflow-hidden">
+	                    <a href="javascript:;" class="h4 show no-m pt5"><i class="icon"></i> 校友信息</a>
+	                </div>
+	            </header>
+	        </section>
+		</div>
+	</div>
+	<style>
+		.noPaddingRight{
+			padding-right: 0;
+		}
+	</style>
+	<form id="alumniUserDetailForm" role="form" class="form-horizontal parsley-form" data-parsley-validate action="$!basePath/alumni/user/edit/do" method="post">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">学号:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="code" placeholder="学号" value="$!alumniUser.campusStudent.code">
+					</div>
+					<label class="col-sm-1 control-label">密码:</label>
+					<div class="col-sm-5">
+						<input type="password" class="form-control" name="password" placeholder="密码" value="$!alumniUser.campusStudent.password">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">姓名:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="name" placeholder="姓名" value="$!alumniUser.campusStudent.name">
+					</div>
+					<label class="col-sm-1 control-label">性别:</label>
+					<div class="col-sm-5">
+						#if($!alumniUser.xb == "男")
+							<input type="text" class="form-control" name="xb" value="男">
+						#elseif($!alumniUser.xb == "女")
+							<input type="text" class="form-control" name="xb" value="女">
+						#else
+						<input type="text" class="form-control" name="xb">
+						#end
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">证件号:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="idcard" placeholder="证件号" value="$!alumniUser.campusStudent.idcard">
+					</div>
+					<label class="col-sm-1 control-label noPaddingRight">出生日期:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="csrq" placeholder="出生日期" value="$!alumniUser.csrq">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">手机号:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="phone" placeholder="手机号" value="$!alumniUser.campusStudent.mobile">
+					</div>
+					<label class="col-sm-1 control-label">民族:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="xb" value="$!alumniUser.mz">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">QQ:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="qq" placeholder="qq" value="$!alumniUser.qq">
+					</div>
+					<label class="col-sm-1 control-label">微信:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="wechat" placeholder="微信" value="$!alumniUser.wechat">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label noPaddingRight">入学年份:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="rxrq" placeholder="入学年份" value="$!alumniUser.rxnf">
+					</div>
+					<label class="col-sm-1 control-label noPaddingRight">毕业年份:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="byrq" placeholder="毕业年份" value="$!alumniUser.bynf">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">专业:</label>
+					<div class="col-sm-5">
+						<input hidden name="zyh" value="$!alumniUser.zyh">
+						<input type="text" class="form-control" name="zyfx" placeholder="专业" value="$!alumniUser.zyfx">
+					</div>
+					<label class="col-sm-1 control-label">学院:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="xymc" placeholder="学院" value="$!alumniUser.xymc">
+						<input hidden name="xsh" value="$!alumniUser.xsh">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">行业:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="industry" placeholder="行业" value="$!alumniUser.industry">
+					</div>
+					<label class="col-sm-1 control-label">班级:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="bm" placeholder="班级" value="$!alumniUser.bm">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">学历:</label>
+					<div class="col-sm-5">
+						<input type="text" name="xw" class="form-control" placeholder="学历" value="$!alumniUser.xw">
+					</div>
+					<label class="col-sm-1 control-label">学制:</label>
+					<div class="col-sm-5">
+						<input type="text" name="xz" class="form-control" placeholder="学制" value="$!alumniUser.xz">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">邮箱:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="email" placeholder="邮箱" value="$!alumniUser.campusStudent.email">
+					</div>
+					<label class="col-sm-1 control-label noPaddingRight">学生类型:</label>
+					<div class="col-sm-5">
+						<input type="text" name="xslb" class="form-control" value="$!alumniUser.xslb">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label noPaddingRight">单位名称:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="companyName" placeholder="单位名称" value="$!alumniUser.companyName">
+					</div>
+					<label class="col-sm-1 control-label noPaddingRight">通信地址:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="region" placeholder="通信地址" value="$!alumniUser.region">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label noPaddingRight">详细地址:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="address" placeholder="详细地址"
+							   value="$!alumniUser.address">
+					</div>
+					<label class="col-sm-1 control-label noPaddingRight">校友会职位:</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" name="position" placeholder="校友会职位"
+							   value="$!alumniUser.position">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">头像</label>
+					<div class="col-sm-5">
+						#if($!alumniUser.campusStudent.photo)
+						<img src="$!uploadPath$!alumniUser.campusStudent.photo">
+						#end
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+</div>

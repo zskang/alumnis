@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>QR码生成工具</title>
+<meta charset=utf-8>
+<link rel="shortcut icon" href="$!basePath/framework/img/logo.png">
+<!--[if (lt IE 8.0)]><link rel=stylesheet href="$!basePath/app/tools/qrcode/base.css?v=00258e4e"><![endif]-->
+<!--[if (!IE)|(gte IE 8.0)]><!-->
+<link rel=stylesheet href="$!basePath/app/tools/qrcode/base_datauri.css?v=10e21e48">
+<!--<![endif]-->
+<!--[if (lt IE 8.0)]><link rel=stylesheet href="$!basePath/app/tools/qrcode/qrcode.css?v=1f328e1e"><![endif]-->
+<!--[if (!IE)|(gte IE 8.0)]><!-->
+<link rel=stylesheet href="$!basePath/app/tools/qrcode/qrcode_datauri.css?v=566db309">
+<link rel=stylesheet href="$!basePath/app/tools/tools.css">
+<!--<![endif]-->
+<script type="text/javascript">
+	(function() {
+		var a = document.getElementsByTagName("html")[0];
+		window.Session = {
+			appDomain : a.getAttribute("data-app-domain") || "",
+			staticDomain : a.getAttribute("data-static-domain") || ""
+		}
+	})();
+	window.registNS = function(fullNS, isIgnorSelf) {
+		var reg = /^[_$a-z]+[_$a-z0-9]*/i;
+		var nsArray = fullNS.split(".");
+		var sEval = "";
+		var sNS = "";
+		var n = isIgnorSelf ? nsArray.length - 1 : nsArray.length;
+		for (var i = 0; i < n; i++) {
+			if (!reg.test(nsArray[i])) {
+				throw new Error("Invalid namespace:" + nsArray[i] + "");
+				return
+			}
+			if (i != 0) {
+				sNS += "."
+			}
+			sNS += nsArray[i];
+			sEval += "if(typeof(" + sNS + ")=='undefined') " + sNS
+					+ "=new Object();else " + sNS + ";"
+		}
+		if (sEval != "") {
+			return eval(sEval)
+		}
+		return {}
+	};
+	window.addEventMap = function(c, d, b, a) {
+		$.each(d, function(e, f) {
+			$(c).bind(f, function(h) {
+				var g = h.target || h.srcElement;
+				if (!g) {
+					return false
+				}
+				for ( var j in b[f]) {
+					var i = b[f][j];
+					if ((g.className && $(g).hasClass(j))) {
+						i.call(g, h);
+						break
+					} else {
+						if (ancestor = $(g).parents("." + j)[0]) {
+							i.call(ancestor, h);
+							break
+						}
+					}
+				}
+				if (typeof a === "function") {
+					a.call(h)
+				}
+			})
+		})
+	};
+	var fixedTheElementOnScroll = function(c, a) {
+		if (!c) {
+			return false
+		}
+		a = parseInt(a, 10) || 0;
+		var b = function(g) {
+			var f = $(c).offset();
+			if ($(c).attr("data-fixed") != "1") {
+				$(c).attr({
+					"data-original-top" : f.top
+				})
+			}
+			var d = $(window).scrollTop() + a;
+			if ($(c).attr("data-original-top") <= d) {
+				if ($.browser.ie == 6) {
+					$(c).attr({
+						"data-fixed" : 1
+					});
+					$(c).css(
+							{
+								position : "absolute",
+								top : d - $(c).attr("data-original-top")
+										+ c.offsetHeight,
+								left : 0
+							})
+				} else {
+					if ($(c).attr("data-fixed") != "1") {
+						$(c).attr({
+							"data-fixed" : 1
+						});
+						$(c).css({
+							position : "fixed",
+							top : a,
+							left : f.left
+						})
+					}
+				}
+			} else {
+				$(c).attr("data-fixed", 0);
+				$(c).css({
+					position : "static"
+				})
+			}
+		};
+		b();
+		$(window).scroll(b)
+	};
+	String.prototype.trim = function() {
+		return this.replace(/^\s*|\s*$/g, "")
+	};
+	String.format = function(c, a) {
+		c = String(c);
+		var b = Array.prototype.slice.call(arguments, 1), d = Object.prototype.toString;
+		if (b.length) {
+			b = b.length == 1 ? (a !== null
+					&& (/\[object Array\]|\[object Object\]/.test(d.call(a))) ? a
+					: b)
+					: b;
+			return c.replace(/#\{(.+?)\}/g, function(e, g) {
+				var f = b[g];
+				if ("[object Function]" == d.call(f)) {
+					f = f(g)
+				}
+				return ("undefined" == typeof f ? "" : f)
+			})
+		}
+		return c
+	};
+	(function() {
+		var b = ("abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video")
+				.split(","), a = b.length;
+		while (a--) {
+			document.createElement(b[a])
+		}
+	})();
+</script>
+</head>
+<body>
+	<section class=mod-page-body>
+		<div class="mod-page-main wordwrap clearfix">
+			<div class=mod-pagecontent>
+				<fieldset id=fieldset_marker>
+					<div id=tabs>
+						<ul>
+							<li><a href="#tabs-0">网址</a>
+							<li><a href="#tabs-1">文本内容</a>
+							<li><a href="#tabs-2">电话号码</a>
+							<li><a href="#tabs-3">短信 / 彩信</a>
+							<li><a href="#tabs-4">邮件地址</a>
+							<li><a href="#tabs-5">通讯录</a>
+						</ul>
+						<div id=tabs-0>
+							<p>
+								<label for=tab0_url>网址：</label>
+								<textarea name="tab0_url" id="tab0_url" placeholder="在这里输入网址"></textarea>
+							</p>
+						</div>
+						<div id=tabs-1>
+							<p>
+								<label for=tab1_text>文字内容：</label>
+								<textarea name="tab1_text" id="tab1_text" placeholder="在这里输入文字"></textarea>
+							</p>
+						</div>
+						<div id=tabs-2>
+							<p>
+								<label for=tab2_telno>电话号码：</label><input name=tab2_telno type=text id=tab2_telno size=20 maxlength=50>
+							</p>
+						</div>
+						<div id=tabs-3>
+							<p>
+								<label for=tab3_telno>号码：</label><input name=tab3_telno type=text id=tab3_telno size=30><br>
+								<label for=tab3_message>信息：</label><textarea name="tab3_message" cols="30" rows="4" id="tab3_message"></textarea>
+								<br>
+								<label for=smsto>类型：</label><input name=tab3_type type=radio id=smsto value=SMSTO checked=checked><label for=smsto>短信</label><input name=tab3_type type=radio id=mmsto value=MMSTO><label
+									for=mmsto>彩信</label>
+							</p>
+						</div>
+						<div id=tabs-4>
+							<p>
+								<label for=tab4_email>邮件地址：</label><input name=tab4_email type=text id=tab4_email size=30 maxlength=200>
+							</p>
+						</div>
+						<div id=tabs-5>
+							<p>
+								<label for=tab5_FormattedName>姓 名：</label><input type=text name=tab5_FormattedName id=tab5_FormattedName><br>
+								<label for=tab5_Telephone>电 话：</label><input type=text name=tab5_Telephone id=tab5_Telephone><br>
+								<label for=tab5_Email>邮件地址：</label><input type=text name=tab5_Email id=tab5_Email><br>
+								<label for=tab5_Organization>公司名称：</label><input type=text name=tab5_Organization id=tab5_Organization><br>
+								<label for=tab5_Title>职 位：</label><input type=text name=tab5_Title id=tab5_Title><br>
+								<label for=tab5_Address>联系地址：</label><input type=text name=tab5_Address id=tab5_Address><br>
+								<label for=tab5_URL>网站地址：</label><input type=text name=tab5_URL id=tab5_URL><br>
+							</p>
+						</div>
+					</div>
+					<div id=options>
+						<input type=button name=button id=confirm_button value="生成QR图">
+						<p>
+							<span>尺寸：<input name=opt_width type=text id=opt_width value=200 size=4 maxlength=4>x<input name=opt_height type=text id=opt_height value=200 size=4 maxlength=4></span><span
+								style="margin-left: 20px">颜色:<input type=text id=opt_fc value="#000000" size=10 readonly></span>
+						</p>
+					</div>
+					<div></div>
+				</fieldset>
+				<fieldset id=fieldset_qr>
+					<legend>结果</legend>
+					<div class=preContainer>
+						<div id=preview></div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</section>
+	<script src="$!basePath/app/tools/qrcode/base.js?v=7a0db0e0"></script>
+	<script src="$!basePath/app/tools/qrcode/install.js?v=0f75f48d"></script>
+	<script src="$!basePath/app/tools/qrcode/forkit.js?v=34442652"></script>
+	<script src="$!basePath/app/tools/qrcode/qrcode.js?v=9ad04ee3"></script>
+	#parse("/open/tools/_footer.html")
+	</body>
+</html>

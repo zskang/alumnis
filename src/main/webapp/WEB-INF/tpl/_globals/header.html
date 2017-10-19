@@ -1,0 +1,136 @@
+<header class="header header-fixed navbar">
+   <div class="brand">
+       <a href="javascript:" class="ti-menu off-left visible-xs" data-toggle="offscreen" data-move="ltr"></a>
+       <!-- Logo -->
+       <a href="$!basePath/index" class="navbar-brand">
+           <img src="$!basePath/framework/img/logo.png" alt="">
+           <span class="heading-font">
+               	#title2
+           </span>
+       </a>
+   </div>
+   #if($!layout == "layout-v")
+   	#if($!_sidebar.size() > 0)
+	#set($parentName = $_sidebar.get(0))
+	#end
+   <ul class="nav navbar-nav vertical">
+      <li></li>
+      	#foreach($!first in $!_firstRes)
+      	#if($!first.hasChildren == false)
+           <li #if($parentName=="$!first.name")class="selected"#end>
+               <a href="$!{basePath}$!{first.url}">
+                   <span><i class="$!first.icon"></i> $!first.name</span>
+               </a>
+           </li>
+           #else
+           <li #if($parentName=="$!first.name")class="selected"#end>
+           	   <a href="javascript:;" data-toggle="dropdown" aria-expanded="true"><i class="$!first.icon"></i> $!first.name</a>
+               <ul class="dropdown-menu animated fadeIn">
+               #foreach($!second in $!_secondRes.get($!first.id))
+               #if($!second.hasChildren == false)
+		       	<li><a href="$!{basePath}$!{second.url}"><i class="$!second.icon"></i> $!second.name</a></li>
+		       #else
+		       <li>
+					<a href="javascript:;" data-toggle="dropdown" aria-expanded="true">
+						<span><i class="$!second.icon"></i> $!second.name</span>
+						<i class="ti-angle-right pull-right"></i>
+					</a>
+					<ul class="dropdown-menu animated fadeIn">
+						#foreach($!third in $!_thirdRes.get($!second.id))
+						<li>
+	                        <a href="$!{basePath}$!third.url" #if($thirdName=="$!third.name")class="active"#end>
+	                            <span><i class="$!third.icon"></i> $!third.name</span>
+	                        </a>
+	                    </li>
+						#end
+					</ul>
+				</li>
+		       #end
+                  
+               #end
+               </ul>
+            </li>
+        	#end
+      	#end
+   </ul>
+   #else
+   <ul class="nav navbar-nav horizontal">
+       <li class="hidden-xs">
+            <!-- 展开、缩小菜单 -->
+           <a href="javascript:;" class="toggle-sidebar">
+               <i class="ti-menu"></i>
+           </a>
+       </li>
+   </ul>
+   #end
+   <ul class="nav navbar-nav navbar-right">
+       <li class="dropdown hidden-xs">
+           <a href="javascript:;" data-toggle="dropdown">
+               <i class="ti-more-alt"></i>
+           </a>
+           <ul class="dropdown-menu animated">
+               <li class="dropdown-header text-muted">快捷导航</li>
+               <li class="divider"></li>
+               <li>
+                   <a href="javascript:;" onclick="ns.view.showModal('$!basePath/index/version')">关于</a>
+               </li>
+           </ul>
+       </li>
+       <li class="notifications dropdown">
+           <a href="javascript:;" onclick="ns.__notify();" data-toggle="dropdown">
+               <i class="ti-bell"></i>
+               <!--每次都调用，而且基本无用，所以注掉-->
+               <!--<script type="text/javascript" src="$!basePath/system/notify/count"></script>-->
+           </a>
+           <div class="dropdown-menu animated">
+               <div class="panel no-m">
+                   <div class="panel-heading text-muted"><b>通知中心</b>
+                   </div>
+                   <div class="panel content no-m" style="max-height:350px">
+                   	 <ul class="list-group">
+                       <li class="list-group-item">
+                           <center><img src="$!basePath/framework/img/loading.gif"/></center>
+                       </li>
+                 	</ul>
+                   </div>
+                   <div class="panel-footer">
+                      <a href="$!basePath/system/notify">查看全部通知</a>
+                   </div>
+                </div>
+            </div>
+            </li>
+			<li class="dropdown hidden-xs">
+                <a href="javascript:;" class="pg-toggle">
+                    <i class="ti-palette"></i>
+                </a>
+            </li>
+            <li class="off-right">
+                <a href="javascript:;" data-toggle="dropdown">
+                    <img src="$!basePath/framework/img/avatar.jpg" class="header-avatar img-circle" alt="$!RealName" title="$!RealName">
+                    <span class="hidden-xs ml10">$!RealName</span>
+                    <i class="ti-angle-down ti-caret hidden-xs"></i>
+                </a>
+                <ul class="dropdown-menu animated">
+                    <li>
+                        <a href="javascript:;" onclick="ns.userCenter()"><i class="fa fa-user"></i><span class="ml10">个人中心</span></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="javascript:;" onclick="ns.setting()"><i class="fa fa-cog"></i><span class="ml10">设置</span></a>
+                    </li>
+                    <li>
+                        <a href="http://www.abnertech.net" target="_blank"><i class="fa fa-question-circle"></i><span class="ml10">帮助</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" onclick="ns.checkUpdate()"><i class="fa fa-refresh"></i><span class="ml10">系统更新</span></a>
+                    </li>
+                    <li>
+                        <a href="$!basePath/signin/do?username=$!username&password=$!password"><i class="fa fa-rotate-left"></i><span class="ml10">重新登陆</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" onclick="ns.exit()"><i class="fa fa-power-off"></i><span class="ml10">退出系统</span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </header>

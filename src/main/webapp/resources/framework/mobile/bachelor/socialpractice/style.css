@@ -1,0 +1,7 @@
+@charset "utf-8";
+/* CSS Document */
+.category{ float:left; color:#979797;}
+.time{ float:right;color:#979797;}
+.subtitle_bl{ overflow:hidden; border-bottom:#c1c1c1 1px solid; margin-top:0.3rem; margin-bottom:0.3rem;}
+.title_bl{ color:#353535;}
+
